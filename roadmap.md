@@ -4,6 +4,6 @@
 - [ ] Notify nexoviait@gmail.com — blocked until a sender domain is verified.
 
 # Office presentation
-- [ ] Add a clearly labeled sample floor visualization.
-- [ ] Add footer directions and descriptive building alt text.
-- [ ] Add Google Maps preview — requires Google Maps connection.
+- [x] Add a clearly labeled sample floor visualization.
+- [x] Add footer directions and descriptive building alt text.
+- [x] Add Google Maps preview; live rendering must be checked on the published Lovable address.

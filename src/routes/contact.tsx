@@ -5,6 +5,7 @@ import { useLang } from "@/lib/i18n";
 import { PageHeader } from "@/components/SiteShell";
 import { LeadForm } from "@/components/LeadForm";
 import building from "@/assets/gawsia-twin-peak.jpg.asset.json";
+import { OfficeMap } from "@/components/OfficeMap";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -43,6 +44,7 @@ function ContactPage() {
             <a href={`https://wa.me/${HUB.whatsapp}`} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-success px-5 py-3 font-semibold text-primary-foreground"><MessageCircle className="h-4 w-4" />{t("Chat on WhatsApp", "WhatsApp-এ চ্যাট")}</a>
             <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(HUB.address)}`} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-xl border border-border px-5 py-3 font-semibold"><MapPin className="h-4 w-4" />{t("Open in Maps", "ম্যাপে দেখুন")}</a>
           </div>
+          <OfficeMap />
         </div>
         <div>
           <h2 className="mb-4 text-2xl font-extrabold">{t("Send us a message", "বার্তা পাঠান")}</h2>
