@@ -11,6 +11,7 @@ import { chime, click } from "@/lib/sound";
 import { PayBadges } from "@/components/SiteShell";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
+import { StationListbox } from "@/components/StationListbox";
 
 const STATION_IDS: StationId[] = ["coffee", "snack", "meals", "integrated"];
 
@@ -138,13 +139,7 @@ function OrderPage() {
         </button>
       )}
 
-      <div className="nice-scroll mt-6 flex gap-2 overflow-x-auto pb-1">
-        {STATIONS.map((s) => (
-          <button key={s.id} onClick={() => { click(); setStation(s.id); }} className={cn("shrink-0 rounded-xl border px-4 font-semibold transition", kiosk ? "py-4 text-base" : "py-2.5 text-sm", station === s.id ? "border-primary bg-primary/15 shadow-glow" : "border-border text-muted-foreground")}>
-            {lang === "bn" ? s.bn : s.name.replace("Automated ", "")}
-          </button>
-        ))}
-      </div>
+      <StationListbox value={station} onChange={(next) => { click(); setStation(next); }} kiosk={kiosk} className="mt-6 pb-1" />
 
       <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_360px]">
         <div>

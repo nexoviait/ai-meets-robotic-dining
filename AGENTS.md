@@ -35,3 +35,4 @@ use the editor.
 - Menu, packages, roadmap and hub contact details live in `src/lib/data.ts`; pricing/ROI/prep logic in `src/lib/orders.ts` and `src/lib/roi.ts` with tests in `src/test/`.
 - The office map uses Maps Embed with the public connector key and the shared address; render only on authorized Lovable app origins to avoid leaking credential-bearing preview hostnames through referrers.
 - Floor zone presentation lives in a dedicated explorer using shared zone data and crops of the labeled sample concept, keeping selection accessible and images consistent with the overall floor visualization.
+- Station selection uses a shared inline single-select listbox with roving focus and localized selection announcements; read-only food lists retain scroll-region semantics to avoid implying item selection.

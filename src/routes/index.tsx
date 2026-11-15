@@ -12,6 +12,7 @@ import floorConcept from "@/assets/hub-floor-concept.jpg";
 import { cn } from "@/lib/utils";
 import { KeyScrollRegion } from "@/components/KeyScrollRegion";
 import { FloorZoneExplorer } from "@/components/FloorZoneExplorer";
+import { StationListbox } from "@/components/StationListbox";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -172,17 +173,7 @@ function StationExplorer() {
   const items = MENU.filter((m) => st.categories.includes(m.category));
   return (
     <Section id="stations" kicker={t("Food station & kiosk explorer", "ফুড স্টেশন ও কিয়স্ক")} title={t("Four robotic stations. One tap to order.", "চারটি রোবোটিক স্টেশন। এক ট্যাপে অর্ডার।")}>
-      <div className="nice-scroll flex gap-2 overflow-x-auto pb-2">
-        {STATIONS.map((s) => (
-          <button
-            key={s.id}
-            onClick={() => { click(); setActive(s.id); }}
-            className={cn("shrink-0 rounded-xl border px-4 py-2.5 text-sm font-semibold transition", active === s.id ? "border-primary bg-primary/15 text-foreground shadow-glow" : "border-border text-muted-foreground hover:text-foreground")}
-          >
-            {lang === "bn" ? s.bn : s.name.replace("Automated ", "")}
-          </button>
-        ))}
-      </div>
+      <StationListbox value={active} onChange={(station) => { click(); setActive(station); }} />
       <div key={active} className="mt-6 grid animate-fade-up gap-6 lg:grid-cols-5">
         <div className="relative overflow-hidden rounded-3xl border border-border lg:col-span-3">
           <img src={STATION_IMG[active]} alt={st.name} className="aspect-[16/9] h-full w-full object-cover" />
