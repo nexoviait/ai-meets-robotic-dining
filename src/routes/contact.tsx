@@ -4,15 +4,15 @@ import { HUB } from "@/lib/data";
 import { useLang } from "@/lib/i18n";
 import { PageHeader } from "@/components/SiteShell";
 import { LeadForm } from "@/components/LeadForm";
-import { STATION_IMG } from "@/lib/station-media";
+import building from "@/assets/gawsia-twin-peak.jpg.asset.json";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
       { title: "Contact & Location — AI HUB BD Dhaka Flagship" },
-      { name: "description", content: "Visit the AI HUB BD flagship in Dhaka. Open 6:00 AM – 11:00 PM, café 24/7. Corporate inquiries, feedback and WhatsApp." },
+      { name: "description", content: `Visit AI HUB BD at ${HUB.address}. Open 6:00 AM – 11:00 PM, café 24/7. Corporate inquiries, feedback and WhatsApp.` },
       { property: "og:title", content: "Visit AI HUB BD in Dhaka" },
-      { property: "og:description", content: "Open 6 AM – 11 PM daily, robotic café 24/7. Send a corporate inquiry or chat on WhatsApp." },
+      { property: "og:description", content: `Find AI HUB BD at ${HUB.address}. Open 6 AM – 11 PM daily, robotic café 24/7.` },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -33,7 +33,7 @@ function ContactPage() {
       <PageHeader kicker={t("Hub location & contact", "লোকেশন ও যোগাযোগ")} title={<>{t("Come build with us in", "আমাদের সাথে তৈরি করুন")} <span className="text-gradient">{t("Dhaka", "ঢাকায়")}</span></>} />
       <section className="mx-auto grid max-w-7xl gap-8 px-4 py-12 lg:grid-cols-2">
         <div className="grid content-start gap-4">
-          <div className="overflow-hidden rounded-3xl border border-border"><img src={STATION_IMG.coffee} alt="AI HUB BD automated coffee bar" className="aspect-video w-full object-cover" /></div>
+          <div className="overflow-hidden rounded-3xl border border-border"><img src={building.url} alt="Gawsia Twin Peak building, 30 N Circular Rd, Dhaka" className="aspect-video w-full object-contain" /></div>
           <div className="grid gap-3 sm:grid-cols-2">
             {info.map((i) => (
               <div key={i.label} className="glass rounded-2xl p-4"><i.icon className="h-5 w-5 text-secondary" /><p className="mt-2 text-xs text-muted-foreground">{i.label}</p><p className="font-semibold">{i.value}</p></div>

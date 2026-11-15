@@ -118,7 +118,7 @@ export const ROADMAP = [
 ];
 
 export const HUB = {
-  address: "AI HUB BD Flagship, Gulshan Avenue, Gulshan-2, Dhaka 1212",
+  address: "Gawsia Twin Peak, 30 N Circular Rd, Dhaka 1205",
   hours: "6:00 AM – 11:00 PM daily",
   cafe: "Café open 24/7",
   whatsapp: "8801700000000",
