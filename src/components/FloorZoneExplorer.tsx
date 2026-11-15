@@ -35,7 +35,7 @@ export function FloorZoneExplorer() {
           return (
             <Button key={z.id} variant="ghost" aria-pressed={i === active} aria-controls="floor-zone-details" onClick={() => { click(); setActive(i); }}
               className={cn("group relative flex h-40 min-w-0 flex-col items-stretch justify-end gap-0 overflow-hidden rounded-lg border p-0 text-left whitespace-normal transition-[border-color,box-shadow,background-color] duration-300 motion-reduce:transition-none sm:h-full hover:bg-card focus-visible:ring-2 focus-visible:ring-secondary", i === 0 && "col-span-2 sm:col-span-3", v.placement, i === active ? "border-secondary bg-card shadow-cyan" : "border-border bg-card")}>
-              <img src={v.image} alt={`Sample ${z.name.toLowerCase()} concept`} loading="lazy" className="min-h-0 w-full flex-1 object-cover transition-transform duration-500 motion-safe:group-hover:scale-105" />
+              <img src={v.image} alt={`Sample ${z.name.toLowerCase()} concept`} loading="lazy" className="min-h-0 w-full flex-1 object-cover transition-transform duration-500 motion-safe:group-hover:scale-105 motion-reduce:transition-none motion-reduce:transform-none" />
               <span className="absolute left-3 top-3 flex h-7 w-7 items-center justify-center rounded-md bg-background/90 text-secondary">{i === active ? <Check /> : <ZoneIcon />}</span>
               <span className="relative block min-h-16 bg-card px-2 py-2 sm:px-3 sm:py-3">
                 <span className="block text-[11px] font-semibold text-gold">{z.sqft.toLocaleString()} SQ FT</span>
