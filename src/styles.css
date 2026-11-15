@@ -221,14 +221,23 @@
     }
   }
   &:focus-visible {
-    outline: 2px solid var(--ring);
-    outline-offset: 2px;
+    outline: 3px solid var(--ring);
+    outline-offset: 3px;
+    border-radius: 0.5rem;
+    box-shadow:
+      0 0 0 5px color-mix(in oklab, var(--ring) 25%, transparent),
+      0 0 18px color-mix(in oklab, var(--ring) 55%, transparent);
     &::-webkit-scrollbar-thumb {
       background: linear-gradient(180deg, var(--primary-glow), var(--secondary));
       background-clip: padding-box;
       box-shadow:
         inset 0 0 0 2px var(--foreground),
-        0 0 10px color-mix(in oklab, var(--primary) 70%, transparent);
+        0 0 12px color-mix(in oklab, var(--primary) 80%, transparent);
+    }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    & {
+      transition: box-shadow 0.2s ease;
     }
   }
   @media (forced-colors: active) {
@@ -240,7 +249,9 @@
       all: revert;
     }
     &:focus-visible {
-      outline: 2px solid Highlight;
+      outline: 3px solid Highlight;
+      outline-offset: 3px;
+      box-shadow: none;
       scrollbar-color: Highlight Canvas;
     }
   }
