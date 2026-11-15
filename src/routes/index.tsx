@@ -10,6 +10,7 @@ import { click } from "@/lib/sound";
 import tour from "@/assets/hub-cafe-tour.mp4.asset.json";
 import floorConcept from "@/assets/hub-floor-concept.jpg";
 import { cn } from "@/lib/utils";
+import { KeyScrollRegion } from "@/components/KeyScrollRegion";
 import { FloorZoneExplorer } from "@/components/FloorZoneExplorer";
 
 export const Route = createFileRoute("/")({
@@ -194,7 +195,7 @@ function StationExplorer() {
           <ul className="grid gap-2 text-sm">
             {st.features.map((f) => <li key={f} className="flex gap-2"><Check className="h-4 w-4 text-success" />{f}</li>)}
           </ul>
-          <div tabIndex={0} role="region" aria-label={t("Station menu list", "স্টেশন মেনু তালিকা")} className="nice-scroll mt-4 max-h-72 flex-1 overflow-y-auto pr-2">
+          <KeyScrollRegion label={t("Station menu list", "স্টেশন মেনু তালিকা")} positionLabel={(p) => t(`Menu scrolled to ${p}%`, `মেনু ${p}% পর্যন্ত স্ক্রল হয়েছে`)} className="mt-4 max-h-72 flex-1 overflow-y-auto pr-2">
             {st.categories.map((c) => (
               <div key={c} className="mb-3">
                 <p className="mb-1 text-xs font-bold uppercase tracking-wider text-gold">{CATEGORY_LABEL[c][lang === "bn" ? 1 : 0]} {t("Menu", "মেনু")}</p>
@@ -206,7 +207,7 @@ function StationExplorer() {
                 ))}
               </div>
             ))}
-          </div>
+          </KeyScrollRegion>
           <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
             <PayBadges />
             <Link to="/order" search={{ station: active }} className="inline-flex items-center gap-2 rounded-xl bg-gradient-brand px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-glow">
