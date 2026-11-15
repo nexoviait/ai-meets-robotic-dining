@@ -171,7 +171,7 @@ function StationExplorer() {
   const items = MENU.filter((m) => st.categories.includes(m.category));
   return (
     <Section id="stations" kicker={t("Food station & kiosk explorer", "ফুড স্টেশন ও কিয়স্ক")} title={t("Four robotic stations. One tap to order.", "চারটি রোবোটিক স্টেশন। এক ট্যাপে অর্ডার।")}>
-      <div className="flex gap-2 overflow-x-auto pb-2">
+      <div className="nice-scroll flex gap-2 overflow-x-auto pb-2">
         {STATIONS.map((s) => (
           <button
             key={s.id}
@@ -194,7 +194,7 @@ function StationExplorer() {
           <ul className="grid gap-2 text-sm">
             {st.features.map((f) => <li key={f} className="flex gap-2"><Check className="h-4 w-4 text-success" />{f}</li>)}
           </ul>
-          <div className="mt-4 max-h-72 flex-1 overflow-y-auto pr-1">
+          <div className="nice-scroll mt-4 max-h-72 flex-1 overflow-y-auto pr-2">
             {st.categories.map((c) => (
               <div key={c} className="mb-3">
                 <p className="mb-1 text-xs font-bold uppercase tracking-wider text-gold">{CATEGORY_LABEL[c][lang === "bn" ? 1 : 0]} {t("Menu", "মেনু")}</p>

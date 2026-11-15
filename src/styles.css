@@ -172,6 +172,30 @@
 @utility animate-arm { animation: arm 1.4s ease-in-out infinite; transform-origin: bottom center; }
 @utility animate-fade-up { animation: fade-up 0.45s ease both; }
 
+@utility nice-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklab, var(--primary) 55%, transparent) transparent;
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background: color-mix(in oklab, var(--muted) 40%, transparent);
+    border-radius: 999px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--primary), var(--secondary));
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, var(--primary-glow), var(--secondary));
+    background-clip: padding-box;
+    box-shadow: 0 0 8px color-mix(in oklab, var(--primary) 60%, transparent);
+  }
+}
+
 @keyframes floor-detail-enter {
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
