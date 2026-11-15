@@ -11,6 +11,7 @@ import { click } from "@/lib/sound";
 import { PageHeader } from "@/components/SiteShell";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
+import { LeadForm } from "@/components/LeadForm";
 
 export const Route = createFileRoute("/solutions")({
   head: () => ({
@@ -73,6 +74,10 @@ function SolutionsPage() {
       </section>
       <Comparison />
       <QuoteBuilder />
+      <section className="mx-auto max-w-7xl px-4 pt-16">
+        <h2 className="mb-4 text-2xl font-extrabold">{t("Business inquiry", "ব্যবসায়িক অনুসন্ধান")}</h2>
+        <div className="max-w-2xl"><LeadForm source="business" kinds={["Business inquiry"]} cta={t("Send business inquiry", "ব্যবসায়িক অনুসন্ধান পাঠান")} /></div>
+      </section>
     </>
   );
 }

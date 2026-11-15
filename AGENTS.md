@@ -30,5 +30,6 @@ use the editor.
 <!-- LOVABLE:END -->
 
 ## Project rules
-- Visitor data (cart, orders, bookings, quotes, inquiries, language, sound) persists in browser localStorage via `src/lib/storage.ts`; no backend yet, so inquiry forms do not reach the owner until Lovable Cloud is added.
+- Visitor cart, orders, bookings, quotes, language and sound persist in browser localStorage; inquiry submissions use Cloud through a validated insert-only server function so they are available to the owner, not just the visitor.
+- All inquiry forms share the same validation and private intake table; no public read grants or policies are allowed because submissions contain personal contact details.
 - Menu, packages, roadmap and hub contact details live in `src/lib/data.ts`; pricing/ROI/prep logic in `src/lib/orders.ts` and `src/lib/roi.ts` with tests in `src/test/`.

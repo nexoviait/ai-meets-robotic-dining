@@ -96,7 +96,7 @@ function InvestorsPage() {
         </div>
         <div>
           <h2 className="mb-4 text-2xl font-extrabold">{t("Request a meeting", "মিটিং অনুরোধ")}</h2>
-          <LeadForm kinds={["Investor meeting"]} cta={t("Request investor meeting", "মিটিং অনুরোধ করুন")} />
+          <LeadForm source="investor" kinds={["Investor meeting"]} cta={t("Request investor meeting", "মিটিং অনুরোধ করুন")} />
         </div>
       </section>
     </>
