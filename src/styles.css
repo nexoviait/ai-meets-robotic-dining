@@ -172,6 +172,15 @@
 @utility animate-arm { animation: arm 1.4s ease-in-out infinite; transform-origin: bottom center; }
 @utility animate-fade-up { animation: fade-up 0.45s ease both; }
 
+@keyframes floor-detail-enter {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.floor-detail-enter { animation: floor-detail-enter 280ms ease-out both; }
+@media (prefers-reduced-motion: reduce) {
+  .floor-detail-enter { animation: none; }
+}
+
 @media print {
   body * { visibility: hidden; }
   .print-area, .print-area * { visibility: visible; }
