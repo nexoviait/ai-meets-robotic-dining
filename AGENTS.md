@@ -34,3 +34,4 @@ use the editor.
 - All inquiry forms share the same validation and private intake table; no public read grants or policies are allowed because submissions contain personal contact details.
 - Menu, packages, roadmap and hub contact details live in `src/lib/data.ts`; pricing/ROI/prep logic in `src/lib/orders.ts` and `src/lib/roi.ts` with tests in `src/test/`.
 - The office map uses Maps Embed with the public connector key and the shared address; render only on authorized Lovable app origins to avoid leaking credential-bearing preview hostnames through referrers.
+- Floor zone presentation lives in a dedicated explorer using shared zone data and crops of the labeled sample concept, keeping selection accessible and images consistent with the overall floor visualization.

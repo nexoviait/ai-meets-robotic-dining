@@ -10,6 +10,7 @@ import { click } from "@/lib/sound";
 import tour from "@/assets/hub-cafe-tour.mp4.asset.json";
 import floorConcept from "@/assets/hub-floor-concept.jpg";
 import { cn } from "@/lib/utils";
+import { FloorZoneExplorer } from "@/components/FloorZoneExplorer";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -248,35 +249,13 @@ function Sectors() {
 
 function FloorPlan() {
   const { t } = useLang();
-  const [zone, setZone] = useState(ZONES[0]!);
   return (
     <Section kicker={t("Flagship hub experience", "ফ্ল্যাগশিপ হাব")} title={t("A zoned 8,000 sq ft floor in Dhaka", "ঢাকায় ৮,০০০ বর্গফুটের জোনভিত্তিক ফ্লোর")}>
       <figure className="mb-8">
         <img src={floorConcept} alt="Illustrative overhead concept of the AI HUB BD floor with workstation rows, consultation rooms, a production studio, training area and robotic café; not the actual office" loading="lazy" width={1536} height={1024} className="aspect-[3/2] w-full rounded-lg object-contain" />
         <figcaption className="mt-3 text-sm text-muted-foreground">{t("Sample floor concept · Illustrative only, not the actual office layout", "নমুনা ফ্লোর ধারণা · শুধুমাত্র চিত্রায়ন, প্রকৃত অফিসের বিন্যাস নয়")}</figcaption>
       </figure>
-      <div className="grid gap-6 lg:grid-cols-3">
-        <div className="grid aspect-[4/3] grid-cols-4 grid-rows-3 gap-2 rounded-3xl border border-border bg-steel p-3 lg:col-span-2">
-          {ZONES.map((z) => (
-            <button
-              key={z.id}
-              style={{ gridColumn: z.col, gridRow: z.row }}
-              onClick={() => { click(); setZone(z); }}
-              className={cn("rounded-xl border p-3 text-left text-xs font-bold transition md:text-sm", zone.id === z.id ? "border-secondary bg-secondary/20 shadow-cyan" : "border-border bg-background/40 hover:bg-background/60")}
-            >
-              {z.name}
-              <span className="block text-[10px] font-medium text-muted-foreground md:text-xs">{z.sqft.toLocaleString()} sq ft</span>
-            </button>
-          ))}
-        </div>
-        <div className="glass rounded-3xl p-6">
-          <p className="text-xs font-bold uppercase tracking-widest text-gold">{zone.sqft.toLocaleString()} sq ft</p>
-          <h3 className="mt-2 text-2xl font-extrabold">{zone.name}</h3>
-          <p className="mt-3 text-muted-foreground">{zone.desc}</p>
-          <p className="mt-6 text-sm text-muted-foreground">Open {"6:00 AM – 11:00 PM"} · Café 24/7</p>
-          <Link to="/book" className="mt-6 inline-flex rounded-xl bg-gradient-brand px-5 py-2.5 text-sm font-semibold text-primary-foreground">Reserve your seat</Link>
-        </div>
-      </div>
+      <FloorZoneExplorer />
     </Section>
   );
 }
