@@ -213,6 +213,17 @@
         0 0 8px color-mix(in oklab, var(--primary) 60%, transparent);
     }
   }
+  &:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    &::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, var(--primary-glow), var(--secondary));
+      background-clip: padding-box;
+      box-shadow:
+        inset 0 0 0 2px var(--foreground),
+        0 0 10px color-mix(in oklab, var(--primary) 70%, transparent);
+    }
+  }
   @media (forced-colors: active) {
     scrollbar-width: auto;
     scrollbar-color: auto;
@@ -220,6 +231,10 @@
     &::-webkit-scrollbar-track,
     &::-webkit-scrollbar-thumb {
       all: revert;
+    }
+    &:focus-visible {
+      outline: 2px solid Highlight;
+      scrollbar-color: Highlight Canvas;
     }
   }
 }
