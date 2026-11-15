@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, Check, Monitor, Users, Camera, Coffee, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
+import { useLocalStorage } from "@/lib/storage";
+import { floorMotionEnabled } from "@/lib/floor-motion";
 import { ZONES } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import { click } from "@/lib/sound";
@@ -21,12 +24,29 @@ const visuals = [
 
 export function FloorZoneExplorer() {
   const [active, setActive] = useState(0);
+  const [preference, setPreference] = useLocalStorage<boolean | null>("aihub.floorMotion", null);
+  const [deviceReducedMotion, setDeviceReducedMotion] = useState(true);
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const sync = () => setDeviceReducedMotion(media.matches);
+    sync();
+    media.addEventListener("change", sync);
+    return () => media.removeEventListener("change", sync);
+  }, []);
+  const motion = floorMotionEnabled(preference, deviceReducedMotion);
   const zone = ZONES[active];
   const visual = visuals[active];
   if (!zone || !visual) return null;
   const Icon = visual.icon;
   return (
-    <div className="grid items-start gap-5 lg:gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+    <div className="floor-motion grid items-start gap-5 lg:gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]" data-motion={motion ? "on" : "off"}>
+      <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 lg:col-span-2">
+        <label htmlFor="floor-motion" className="text-sm font-semibold">Floor plan motion</label>
+        <div className="flex shrink-0 items-center gap-3">
+          {preference !== null && <Button variant="ghost" size="sm" onClick={() => setPreference(null)}>Use device setting</Button>}
+          <Switch id="floor-motion" checked={motion} onCheckedChange={setPreference} className="transition-none [&>span]:transition-none" />
+        </div>
+      </div>
       <div role="group" aria-label="Floor plan zones" className="grid min-w-0 grid-cols-2 gap-2 sm:gap-3 sm:grid-cols-4 sm:grid-rows-[180px_180px_220px]">
         {ZONES.map((z, i) => {
           const v = visuals[i];
@@ -35,7 +55,7 @@ export function FloorZoneExplorer() {
           return (
             <Button key={z.id} variant="ghost" aria-pressed={i === active} aria-controls="floor-zone-details" onClick={() => { click(); setActive(i); }}
               className={cn("group relative flex h-40 min-w-0 flex-col items-stretch justify-end gap-0 overflow-hidden rounded-lg border p-0 text-left whitespace-normal transition-[border-color,box-shadow,background-color] duration-300 motion-reduce:transition-none sm:h-full hover:bg-card focus-visible:ring-2 focus-visible:ring-secondary", i === 0 && "col-span-2 sm:col-span-3", v.placement, i === active ? "border-secondary bg-card shadow-cyan" : "border-border bg-card")}>
-              <img src={v.image} alt={`Sample ${z.name.toLowerCase()} concept`} loading="lazy" className="min-h-0 w-full flex-1 object-cover transition-transform duration-500 motion-safe:group-hover:scale-105 motion-reduce:transition-none motion-reduce:transform-none" />
+              <img src={v.image} alt={`Sample ${z.name.toLowerCase()} concept`} loading="lazy" className="floor-zone-image min-h-0 w-full flex-1 object-cover transition-transform duration-500" />
               <span className="absolute left-3 top-3 flex h-7 w-7 items-center justify-center rounded-md bg-background/90 text-secondary">{i === active ? <Check /> : <ZoneIcon />}</span>
               <span className="relative block min-h-16 bg-card px-2 py-2 sm:px-3 sm:py-3">
                 <span className="block text-[11px] font-semibold text-gold">{z.sqft.toLocaleString()} SQ FT</span>

@@ -180,6 +180,12 @@
 @media (prefers-reduced-motion: reduce) {
   .floor-detail-enter { animation: none; }
 }
+.floor-motion[data-motion="on"] .floor-detail-enter { animation: floor-detail-enter 280ms ease-out both; }
+.floor-motion[data-motion="on"] img { transition-property: opacity, transform; transition-duration: 500ms; }
+.floor-motion[data-motion="on"] button { transition-property: border-color, box-shadow, background-color; transition-duration: 300ms; }
+.floor-motion[data-motion="on"] button:hover .floor-zone-image { transform: scale(1.05); }
+.floor-motion[data-motion="off"] *, .floor-motion[data-motion="off"] *::before, .floor-motion[data-motion="off"] *::after { animation: none; transition: none; }
+.floor-motion[data-motion="off"] img { transform: none; }
 
 @media print {
   body * { visibility: hidden; }
