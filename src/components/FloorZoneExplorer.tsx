@@ -41,10 +41,13 @@ export function FloorZoneExplorer() {
   return (
     <div className="floor-motion grid items-start gap-5 lg:gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]" data-motion={motion ? "on" : "off"}>
       <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 lg:col-span-2">
-        <label htmlFor="floor-motion" className="text-sm font-semibold">Floor plan motion</label>
+        <div className="min-w-0">
+          <label htmlFor="floor-motion" className="text-sm font-semibold">Floor plan motion</label>
+          <p id="floor-motion-status" aria-live="polite" className="mt-1 text-xs text-muted-foreground">{preference === null ? "Following system settings" : `Manual choice · Motion ${motion ? "on" : "off"}`}</p>
+        </div>
         <div className="flex shrink-0 items-center gap-3">
           {preference !== null && <Button variant="ghost" size="sm" onClick={() => setPreference(null)}>Use device setting</Button>}
-          <Switch id="floor-motion" checked={motion} onCheckedChange={setPreference} className="transition-none [&>span]:transition-none" />
+          <Switch id="floor-motion" aria-describedby="floor-motion-status" checked={motion} onCheckedChange={setPreference} className="transition-none [&>span]:transition-none" />
         </div>
       </div>
       <div role="group" aria-label="Floor plan zones" className="grid min-w-0 grid-cols-2 gap-2 sm:gap-3 sm:grid-cols-4 sm:grid-rows-[180px_180px_220px]">
