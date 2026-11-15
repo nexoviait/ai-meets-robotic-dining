@@ -46,8 +46,8 @@ export function FloorZoneExplorer() {
           <p id="floor-motion-status" aria-live="polite" className="mt-1 text-xs text-muted-foreground">{preference === null ? "Following system settings" : `Manual choice · Motion ${motion ? "on" : "off"}`}</p>
         </div>
         <div className="flex shrink-0 items-center gap-3">
-          {preference !== null && <Button variant="ghost" size="sm" onClick={() => setPreference(null)}>Use device setting</Button>}
-          <Switch id="floor-motion" aria-describedby="floor-motion-status" checked={motion} onCheckedChange={setPreference} className="transition-none [&>span]:transition-none" />
+          {preference !== null && <Button variant="ghost" size="sm" aria-label="Reset floor plan motion to system settings" className="focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-4 focus-visible:ring-offset-background" onClick={() => setPreference(null)}>Use device setting</Button>}
+          <Switch id="floor-motion" aria-label="Floor plan motion" aria-describedby="floor-motion-status" checked={motion} onCheckedChange={setPreference} className="transition-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-4 focus-visible:ring-offset-background [&>span]:transition-none" />
         </div>
       </div>
       <div role="group" aria-label="Floor plan zones" className="grid min-w-0 grid-cols-2 gap-2 sm:gap-3 sm:grid-cols-4 sm:grid-rows-[180px_180px_220px]">
