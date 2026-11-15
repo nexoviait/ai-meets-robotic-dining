@@ -278,3 +278,17 @@
   .print-area { position: absolute; inset: 0; background: white; color: black; padding: 24px; }
   .no-print { display: none !important; }
 }
+
+.concierge-panel {
+  right: 20px;
+  bottom: 20px;
+  width: min(440px, calc(100vw - 32px));
+  height: min(720px, calc(100dvh - 100px));
+}
+@media (max-width: 639px) {
+  .concierge-panel { right: 8px; bottom: 8px; width: calc(100vw - 16px); height: calc(100dvh - 88px); }
+}
+.concierge-panel [data-streamdown] { overflow-wrap: anywhere; }
+@media (prefers-reduced-motion: reduce) {
+  .concierge-panel *, .concierge-panel *::before, .concierge-panel *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}

@@ -15,6 +15,8 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as InvestorsRouteImport } from './routes/investors'
 import { Route as OrderRouteImport } from './routes/order'
 import { Route as SolutionsRouteImport } from './routes/solutions'
+import { Route as ChatThreadIdRouteImport } from './routes/chat.$threadId'
+import { Route as ApiPublicConciergeRouteImport } from './routes/api/public/concierge'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -46,6 +48,16 @@ const SolutionsRoute = SolutionsRouteImport.update({
   path: '/solutions',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ChatThreadIdRoute = ChatThreadIdRouteImport.update({
+  id: '/chat/$threadId',
+  path: '/chat/$threadId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicConciergeRoute = ApiPublicConciergeRouteImport.update({
+  id: '/api/public/concierge',
+  path: '/api/public/concierge',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -54,6 +66,8 @@ export interface FileRoutesByFullPath {
   '/investors': typeof InvestorsRoute
   '/order': typeof OrderRoute
   '/solutions': typeof SolutionsRoute
+  '/chat/$threadId': typeof ChatThreadIdRoute
+  '/api/public/concierge': typeof ApiPublicConciergeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -62,6 +76,8 @@ export interface FileRoutesByTo {
   '/investors': typeof InvestorsRoute
   '/order': typeof OrderRoute
   '/solutions': typeof SolutionsRoute
+  '/chat/$threadId': typeof ChatThreadIdRoute
+  '/api/public/concierge': typeof ApiPublicConciergeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -71,12 +87,30 @@ export interface FileRoutesById {
   '/investors': typeof InvestorsRoute
   '/order': typeof OrderRoute
   '/solutions': typeof SolutionsRoute
+  '/chat/$threadId': typeof ChatThreadIdRoute
+  '/api/public/concierge': typeof ApiPublicConciergeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/book' | '/contact' | '/investors' | '/order' | '/solutions'
+  fullPaths:
+    | '/'
+    | '/book'
+    | '/contact'
+    | '/investors'
+    | '/order'
+    | '/solutions'
+    | '/chat/$threadId'
+    | '/api/public/concierge'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/book' | '/contact' | '/investors' | '/order' | '/solutions'
+  to:
+    | '/'
+    | '/book'
+    | '/contact'
+    | '/investors'
+    | '/order'
+    | '/solutions'
+    | '/chat/$threadId'
+    | '/api/public/concierge'
   id:
     | '__root__'
     | '/'
@@ -85,6 +119,8 @@ export interface FileRouteTypes {
     | '/investors'
     | '/order'
     | '/solutions'
+    | '/chat/$threadId'
+    | '/api/public/concierge'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -94,6 +130,8 @@ export interface RootRouteChildren {
   InvestorsRoute: typeof InvestorsRoute
   OrderRoute: typeof OrderRoute
   SolutionsRoute: typeof SolutionsRoute
+  ChatThreadIdRoute: typeof ChatThreadIdRoute
+  ApiPublicConciergeRoute: typeof ApiPublicConciergeRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -140,6 +178,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SolutionsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/chat/$threadId': {
+      id: '/chat/$threadId'
+      path: '/chat/$threadId'
+      fullPath: '/chat/$threadId'
+      preLoaderRoute: typeof ChatThreadIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/concierge': {
+      id: '/api/public/concierge'
+      path: '/api/public/concierge'
+      fullPath: '/api/public/concierge'
+      preLoaderRoute: typeof ApiPublicConciergeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -150,6 +202,8 @@ const rootRouteChildren: RootRouteChildren = {
   InvestorsRoute: InvestorsRoute,
   OrderRoute: OrderRoute,
   SolutionsRoute: SolutionsRoute,
+  ChatThreadIdRoute: ChatThreadIdRoute,
+  ApiPublicConciergeRoute: ApiPublicConciergeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -5,6 +5,7 @@ import { useLang } from "@/lib/i18n";
 import { useLocalStorage } from "@/lib/storage";
 import { HUB } from "@/lib/data";
 import { cn } from "@/lib/utils";
+import { ConciergeWidget } from "./ConciergeWidget";
 
 const NAV = [
   { to: "/", en: "Home", bn: "হোম" },
@@ -111,11 +112,12 @@ export function SiteShell({ children }: { children: ReactNode }) {
         href={`https://wa.me/${HUB.whatsapp}`}
         target="_blank"
         rel="noreferrer"
-        className={cn("no-print fixed bottom-5 right-5 z-40 grid h-12 w-12 place-items-center rounded-full bg-success text-primary-foreground shadow-cyan")}
+        className={cn("no-print fixed bottom-5 left-5 z-40 grid h-12 w-12 place-items-center rounded-full bg-success text-primary-foreground shadow-cyan")}
         aria-label="Chat on WhatsApp"
       >
         <MessageCircle className="h-6 w-6" />
       </a>
+      <ConciergeWidget />
     </div>
   );
 }

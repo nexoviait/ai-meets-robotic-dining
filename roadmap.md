@@ -3,6 +3,10 @@
 - [x] Store and verify contact, investor and business submissions.
 - [ ] Notify nexoviait@gmail.com — blocked until a sender domain is verified.
 
+# AI Concierge
+- [x] Add bilingual streaming concierge with shared hub facts and quick actions.
+- [x] Add browser-saved conversations with dedicated URLs and verify switching/reload.
+
 # Office presentation
 - [x] Add a clearly labeled sample floor visualization.
 - [x] Add footer directions and descriptive building alt text.
