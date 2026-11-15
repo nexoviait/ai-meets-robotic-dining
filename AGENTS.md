@@ -28,3 +28,7 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Project rules
+- Visitor data (cart, orders, bookings, quotes, inquiries, language, sound) persists in browser localStorage via `src/lib/storage.ts`; no backend yet, so inquiry forms do not reach the owner until Lovable Cloud is added.
+- Menu, packages, roadmap and hub contact details live in `src/lib/data.ts`; pricing/ROI/prep logic in `src/lib/orders.ts` and `src/lib/roi.ts` with tests in `src/test/`.
