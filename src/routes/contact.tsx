@@ -33,7 +33,7 @@ function ContactPage() {
       <PageHeader kicker={t("Hub location & contact", "লোকেশন ও যোগাযোগ")} title={<>{t("Come build with us in", "আমাদের সাথে তৈরি করুন")} <span className="text-gradient">{t("Dhaka", "ঢাকায়")}</span></>} />
       <section className="mx-auto grid max-w-7xl gap-8 px-4 py-12 lg:grid-cols-2">
         <div className="grid content-start gap-4">
-          <div className="overflow-hidden rounded-3xl border border-border"><img src={building.url} alt="Gawsia Twin Peak building, 30 N Circular Rd, Dhaka" className="aspect-video w-full object-contain" /></div>
+          <div className="overflow-hidden rounded-3xl border border-border"><img src={building.url} alt="Night-time exterior of Gawsia Twin Peak, showing its illuminated multi-storey facade and entrance at 30 N Circular Rd, Dhaka 1205" className="aspect-video w-full object-contain" /></div>
           <div className="grid gap-3 sm:grid-cols-2">
             {info.map((i) => (
               <div key={i.label} className="glass rounded-2xl p-4"><i.icon className="h-5 w-5 text-secondary" /><p className="mt-2 text-xs text-muted-foreground">{i.label}</p><p className="font-semibold">{i.value}</p></div>

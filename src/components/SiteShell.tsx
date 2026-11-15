@@ -95,6 +95,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
           <div className="text-sm">
             <p className="font-semibold">{t("Visit", "ঠিকানা")}</p>
             <p className="mt-2 text-muted-foreground">{HUB.address}</p>
+            <a href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(HUB.address)}`} target="_blank" rel="noreferrer" className="mt-2 inline-flex text-secondary underline underline-offset-4">{t("Get directions", "দিকনির্দেশনা")}</a>
             <p className="mt-1 text-muted-foreground">{HUB.hours} · {HUB.cafe}</p>
           </div>
           <div className="grid content-start gap-2 text-sm">

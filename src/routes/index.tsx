@@ -8,6 +8,7 @@ import { useLang } from "@/lib/i18n";
 import { PayBadges } from "@/components/SiteShell";
 import { click } from "@/lib/sound";
 import tour from "@/assets/hub-cafe-tour.mp4.asset.json";
+import floorConcept from "@/assets/hub-floor-concept.jpg";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
@@ -250,6 +251,10 @@ function FloorPlan() {
   const [zone, setZone] = useState(ZONES[0]!);
   return (
     <Section kicker={t("Flagship hub experience", "ফ্ল্যাগশিপ হাব")} title={t("A zoned 8,000 sq ft floor in Dhaka", "ঢাকায় ৮,০০০ বর্গফুটের জোনভিত্তিক ফ্লোর")}>
+      <figure className="mb-8">
+        <img src={floorConcept} alt="Illustrative overhead concept of the AI HUB BD floor with workstation rows, consultation rooms, a production studio, training area and robotic café; not the actual office" loading="lazy" width={1536} height={1024} className="aspect-[3/2] w-full rounded-lg object-contain" />
+        <figcaption className="mt-3 text-sm text-muted-foreground">{t("Sample floor concept · Illustrative only, not the actual office layout", "নমুনা ফ্লোর ধারণা · শুধুমাত্র চিত্রায়ন, প্রকৃত অফিসের বিন্যাস নয়")}</figcaption>
+      </figure>
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="grid aspect-[4/3] grid-cols-4 grid-rows-3 gap-2 rounded-3xl border border-border bg-steel p-3 lg:col-span-2">
           {ZONES.map((z) => (
