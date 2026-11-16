@@ -102,19 +102,23 @@ export const SLOTS = [
 export const FOCUS = ["Idea Discovery", "Marketing & Branding", "Automation & Systems", "Enterprise Architecture"];
 
 export const FUNDS = [
-  { name: "Facility fit-out", value: 5.0 },
-  { name: "Workstations & local compute", value: 4.0 },
-  { name: "Working capital", value: 4.0 },
-  { name: "Platform & AI R&D", value: 3.0 },
-  { name: "Marketing", value: 2.0 },
-  { name: "Reserve", value: 2.0 },
+  { name: "Facility fit-out", value: 3050 },
+  { name: "Workstations & local compute", value: 2440 },
+  { name: "Working capital", value: 2440 },
+  { name: "Platform & AI R&D", value: 1830 },
+  { name: "Marketing", value: 1220 },
+  { name: "Reserve", value: 1220 },
 ];
+
+export const RAISE_CR = FUNDS.reduce((s, f) => s + f.value, 0);
+export const BREAK_EVEN_MONTHLY_CR = 872;
+export const cr = (n: number) => n.toLocaleString("en-IN");
 
 export const ROADMAP = [
   { phase: "Phase 1", when: "Days 0–90 · Prove", title: "Validate the model", points: ["Lease & design validation, app MVP", "30–50 workstation pilot", "3–5 paid packages, first 100 SME customers", "20–30 SME retainers; 300–500 sessions/day"] },
   { phase: "Phase 2", when: "Months 4–6 · Launch", title: "Open the flagship", points: ["Open in phases to 200 workstations", "Consultant playbooks & case studies", "Subscription billing & customer success", "10–20 enterprise pilots; café pilot (coffee & snacks)"] },
   { phase: "Phase 3", when: "Months 7–9 · Expand", title: "Grow recurring revenue", points: ["Enterprise pilots & managed services", "Channel partnerships", "Full café menu incl. lunch & dinner", "Freelancer capacity scaled"] },
-  { phase: "Phase 4", when: "Months 10–12 · Scale", title: "Reach break-even run-rate", points: ["Target ≥ BDT 1.43 Cr monthly revenue run-rate", "2,000+ daily sessions only if utilisation supports it", "Audited cash controls & annual audit"] },
+  { phase: "Phase 4", when: "Months 10–12 · Scale", title: "Reach break-even run-rate", points: [`Target ≥ BDT ${cr(BREAK_EVEN_MONTHLY_CR)} Cr monthly revenue run-rate`, "2,000+ daily sessions only if utilisation supports it", "Audited cash controls & annual audit"] },
 ];
 
 export const HUB = {

@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Download, Eye, FileText, Presentation } from "lucide-react";
-import { FUNDS, ROADMAP } from "@/lib/data";
+import { FUNDS, ROADMAP, RAISE_CR, BREAK_EVEN_MONTHLY_CR, cr } from "@/lib/data";
 import { useLang } from "@/lib/i18n";
 import { PageHeader } from "@/components/SiteShell";
 import { LeadForm } from "@/components/LeadForm";
@@ -10,10 +10,10 @@ import deck from "@/assets/pitch-deck.pdf.asset.json";
 export const Route = createFileRoute("/investors")({
   head: () => ({
     meta: [
-      { title: "Investors — AI HUB BD BDT 20 Cr Launch Plan" },
-      { name: "description", content: "AI HUB BD investor memorandum: BDT 20 Cr capital plan, use of funds, revenue ladder, café revenue and 12-month execution roadmap." },
+      { title: "Investors — AI HUB BD BDT 12,200 Cr Launch Plan" },
+      { name: "description", content: "AI HUB BD investor memorandum: BDT 12,200 Cr capital plan, use of funds, revenue ladder, café revenue and 12-month execution roadmap." },
       { property: "og:title", content: "Invest in AI HUB BD" },
-      { property: "og:description", content: "BDT 20 Cr to launch Bangladesh's first physical AI hub. See the use of funds, revenue model and roadmap." },
+      { property: "og:description", content: "BDT 12,200 Cr to launch Bangladesh's first physical AI hub. See the use of funds, revenue model and roadmap." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -35,7 +35,7 @@ function InvestorsPage() {
   ];
   return (
     <>
-      <PageHeader kicker={t("Investor memorandum", "বিনিয়োগকারী মেমোরান্ডাম")} title={<>{t("Raising", "সংগ্রহ")} <span className="text-gradient">BDT 20 Cr</span> {t("to launch the flagship", "ফ্ল্যাগশিপ চালুর জন্য")}</>} sub="Planning scenario revenue of BDT 20 Cr in Year 1, with break-even at roughly BDT 1.43 Cr monthly revenue." />
+      <PageHeader kicker={t("Investor memorandum", "বিনিয়োগকারী মেমোরান্ডাম")} title={<>{t("Raising", "সংগ্রহ")} <span className="text-gradient">BDT {cr(RAISE_CR)} Cr</span> {t("to launch the flagship", "ফ্ল্যাগশিপ চালুর জন্য")}</>} sub={`Planning scenario revenue of BDT ${cr(RAISE_CR)} Cr in Year 1, with break-even at roughly BDT ${cr(BREAK_EVEN_MONTHLY_CR)} Cr monthly revenue.`} />
       <section className="mx-auto grid max-w-7xl gap-8 px-4 py-12 lg:grid-cols-2">
         <div className="glass rounded-3xl p-6">
           <h2 className="text-xl font-bold">{t("Use of funds", "তহবিলের ব্যবহার")}</h2>
@@ -46,10 +46,10 @@ function InvestorsPage() {
             {FUNDS.map((f, i) => (
               <li key={f.name} className="flex items-center justify-between gap-3 text-sm">
                 <span className="flex items-center gap-2"><span className={`h-3 w-3 rounded-sm ${COLORS[i]}`} />{f.name}</span>
-                <span className="font-bold">BDT {f.value.toFixed(1)} Cr <span className="font-normal text-muted-foreground">({Math.round((f.value / total) * 100)}%)</span></span>
+                <span className="font-bold">BDT {cr(f.value)} Cr <span className="font-normal text-muted-foreground">({Math.round((f.value / total) * 100)}%)</span></span>
               </li>
             ))}
-            <li className="flex justify-between border-t border-border pt-3 font-extrabold"><span>Total</span><span>BDT {total.toFixed(1)} Cr</span></li>
+            <li className="flex justify-between border-t border-border pt-3 font-extrabold"><span>Total</span><span>BDT {cr(total)} Cr</span></li>
           </ul>
         </div>
         <div className="glass rounded-3xl p-6">

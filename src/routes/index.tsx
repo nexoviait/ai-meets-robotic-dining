@@ -144,7 +144,7 @@ function Hero() {
             </Link>
           </div>
           <dl className="mt-10 grid max-w-lg grid-cols-3 gap-4">
-            {[["3,000", "seat-hours / day"], ["8,000", "sq ft flagship"], ["৳20 Cr", "launch plan"]].map(([v, l]) => (
+            {[["3,000", "seat-hours / day"], ["8,000", "sq ft flagship"], ["৳12,200 Cr", "launch plan"]].map(([v, l]) => (
               <div key={l}><dt className="text-2xl font-extrabold">{v}</dt><dd className="text-xs text-muted-foreground">{l}</dd></div>
             ))}
           </dl>

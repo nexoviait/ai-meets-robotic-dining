@@ -21,5 +21,5 @@ Hub: 200+ planned AI-enabled workstations, discovery session ৳100, 8,000 sq ft
 Stations: ${JSON.stringify(STATIONS)}
 Menu (listed prices, not live stock): ${JSON.stringify(MENU)}
 Packages (BDT price ranges, estimates subject to scope): ${JSON.stringify(PACKAGES)}
-Investment: proposed BDT 20 Cr raise; Year 1 BDT 20 Cr revenue planning scenario, roughly BDT 1.43 Cr monthly break-even run-rate, not a promise. Funds in crore: ${JSON.stringify(FUNDS)}. Roadmap: ${JSON.stringify(ROADMAP)}. The Investors page has the memorandum, pitch deck and meeting request form.`;
+Investment: proposed BDT 12,200 Cr raise; Year 1 BDT 12,200 Cr revenue planning scenario, roughly BDT 872 Cr monthly break-even run-rate, not a promise. Funds in crore: ${JSON.stringify(FUNDS)}. Roadmap: ${JSON.stringify(ROADMAP)}. The Investors page has the memorandum, pitch deck and meeting request form.`;
 }
