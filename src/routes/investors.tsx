@@ -428,6 +428,54 @@ function InvestorsPage() {
       </section>
 
       <section className="mx-auto max-w-7xl px-4 pt-20">
+        <div className="grid gap-6 lg:grid-cols-2">
+          <article className="glass rounded-3xl p-6">
+            <Network className="h-7 w-7 text-secondary" />
+            <h2 className="mt-4 text-2xl font-extrabold">Why AI HUB BD?</h2>
+            <p className="mt-2 text-sm leading-6 text-muted-foreground">
+              Not simply a chain of technology offices — a proposed national innovation
+              infrastructure connecting AI education, computing resources, entrepreneurship,
+              business automation, research and commercial technology services.
+            </p>
+            <div className="mt-5">
+              <CheckList
+                items={[
+                  "Physical AI workstations with district-level accessibility",
+                  "Commercial AI services and business automation",
+                  "Startup support, incubation and coworking",
+                  "AI education, research and creative production",
+                  "One integrated national management and technology platform",
+                ]}
+              />
+            </div>
+          </article>
+          <article className="glass rounded-3xl p-6">
+            <BadgeCheck className="h-7 w-7 text-primary-glow" />
+            <h2 className="mt-4 text-2xl font-extrabold">Investor opportunity</h2>
+            <p className="mt-2 text-sm leading-6 text-muted-foreground">
+              Strategic and institutional investors, technology partners and business groups are
+              invited to help develop Bangladesh’s proposed national AI infrastructure.
+            </p>
+            <div className="mt-5 grid grid-cols-2 gap-3">
+              <div className="rounded-2xl border border-border bg-card/40 p-4">
+                <p className="text-xs text-muted-foreground">Initial pilot</p>
+                <p className="mt-1 font-extrabold">USD 5–10 Million</p>
+              </div>
+              <div className="rounded-2xl border border-border bg-card/40 p-4">
+                <p className="text-xs text-muted-foreground">National vision</p>
+                <p className="mt-1 font-extrabold">USD 100 Million</p>
+              </div>
+            </div>
+            <p className="mt-5 text-xs leading-5 text-muted-foreground">
+              Participation may use mutually agreed equity investment, strategic partnerships or
+              other legally appropriate financing. No guaranteed return or predetermined equity
+              percentage is implied.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 pt-20">
         <div className="glass overflow-hidden rounded-3xl border-primary/30">
           <div className="grid gap-8 p-6 md:p-8 lg:grid-cols-[1.3fr_1fr]">
             <div>
