@@ -39,3 +39,4 @@ use the editor.
 - Concierge threads use route-derived IDs and browser-local UIMessage history; AI Elements renders the global widget, while a same-origin validated streaming server route adapts Gateway native events and shared hub data to UI messages so private model calls never enter browser code.
 - The national district map reads 64 public cached locations through the route loader; a cron-verified nightly route refreshes eight coordinates through the Maps gateway on rotation, avoiding per-visitor geocoding and keeping cached coordinates within provider limits.
 - Map pins and district details share the browser-safe districtHubStatus helper so location confirmation remains consistent and separate from proposed rollout phases.
+- Concierge guided workflows are data-driven in a shared workflow module, and other pages open the global widget through a window-event helper so chat state stays in one place.

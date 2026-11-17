@@ -43,7 +43,8 @@ import {
 import { ConciergeTools, ReadAloudToggle, VoiceInputButton, speak } from "./ConciergeTools";
 import { useLocalStorage } from "@/lib/storage";
 import { WorkflowPanel } from "./WorkflowPanel";
-import type { Workflow } from "@/lib/concierge-workflows";
+import { WORKFLOWS, type Workflow } from "@/lib/concierge-workflows";
+import { FLOW_EVENT, OPEN_EVENT, takePendingWorkflow } from "@/lib/concierge-open";
 import avatar from "@/assets/concierge.png";
 
 export function ConciergeWidget() {
@@ -105,6 +106,15 @@ function Concierge() {
     if (last) go(last.id);
     else create();
   };
+  const openRef = useRef(open);
+  openRef.current = open;
+  useEffect(() => {
+    const h = () => {
+      if (!routeId) openRef.current();
+    };
+    window.addEventListener(OPEN_EVENT, h);
+    return () => window.removeEventListener(OPEN_EVENT, h);
+  }, [routeId]);
   const close = useCallback(() => {
     void navigate({ to: previous.current });
   }, [navigate]);
@@ -247,7 +257,19 @@ function ChatWindow({
 }) {
   const { lang, t } = useLang();
   const [input, setInput] = useState("");
-  const [flow, setFlow] = useState<Workflow | null>(null);
+  const [flow, setFlow] = useState<Workflow | null>(() => {
+    const id = takePendingWorkflow();
+    return WORKFLOWS.find((w) => w.id === id) ?? null;
+  });
+  useEffect(() => {
+    const h = (e: Event) => {
+      const id = (e as CustomEvent<string>).detail;
+      takePendingWorkflow();
+      setFlow(WORKFLOWS.find((w) => w.id === id) ?? null);
+    };
+    window.addEventListener(FLOW_EVENT, h);
+    return () => window.removeEventListener(FLOW_EVENT, h);
+  }, []);
   const [voiceReplies, setVoiceReplies] = useLocalStorage("aihub.concierge.voice", false);
   const voiceRef = useRef(voiceReplies);
   voiceRef.current = voiceReplies;

@@ -65,7 +65,7 @@ export function WorkflowPanel({ workflow, onCancel, onSubmit }: { workflow: Work
         <div className="mt-3">
           <p className="text-sm font-semibold">{t("Review — your result will include:", "পর্যালোচনা — ফলাফলে থাকবে:")}</p>
           <ul className="mt-2 grid gap-1 text-xs text-muted-foreground">
-            {workflow.template.map((s) => <li key={s} className="flex gap-1.5"><Check className="h-3.5 w-3.5 shrink-0 text-success" />{s}</li>)}
+            {workflow.template.map((s) => <li key={s.en} className="flex gap-1.5"><Check className="h-3.5 w-3.5 shrink-0 text-success" />{s[lang]}</li>)}
           </ul>
           <dl className="mt-3 grid gap-1 rounded-lg bg-muted/50 p-2 text-xs">
             {workflow.fields.filter((f) => values[f.id]?.trim()).map((f) => (

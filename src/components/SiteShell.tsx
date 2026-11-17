@@ -1,11 +1,12 @@
 import { Link } from "@tanstack/react-router";
 import { useState, type ReactNode } from "react";
-import { Cpu, Menu, Volume2, VolumeX, X, MessageCircle } from "lucide-react";
+import { Cpu, Sparkles, Menu, Volume2, VolumeX, X, MessageCircle } from "lucide-react";
 import { useLang } from "@/lib/i18n";
 import { useLocalStorage } from "@/lib/storage";
 import { HUB } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import { ConciergeWidget } from "./ConciergeWidget";
+import { openConcierge } from "@/lib/concierge-open";
 
 const NAV = [
   { to: "/", en: "Home", bn: "হোম" },
@@ -50,6 +51,9 @@ export function SiteShell({ children }: { children: ReactNode }) {
                 {t(n.en, n.bn)}
               </Link>
             ))}
+            <button onClick={() => openConcierge()} className="ml-1 inline-flex items-center gap-1.5 rounded-lg border border-secondary/60 px-3 py-2 text-sm font-semibold text-secondary transition-colors hover:bg-secondary/10">
+              <Sparkles className="h-4 w-4" /> {t("AI Chat", "এআই চ্যাট")}
+            </button>
           </nav>
           <div className="flex shrink-0 items-center gap-2">
             <button
@@ -81,6 +85,9 @@ export function SiteShell({ children }: { children: ReactNode }) {
                 {t(n.en, n.bn)}
               </Link>
             ))}
+            <button onClick={() => { setOpen(false); openConcierge(); }} className="inline-flex items-center gap-2 rounded-lg px-3 py-2.5 text-left font-semibold text-secondary">
+              <Sparkles className="h-4 w-4" /> {t("AI Chat", "এআই চ্যাট")}
+            </button>
           </nav>
         )}
       </header>

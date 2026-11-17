@@ -1,11 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import * as Icons from "lucide-react";
-import { ArrowRight, Bot, Check, Clock, Cpu, MapPin, Ticket, Users, Monitor, UserCheck, Globe } from "lucide-react";
+import { ArrowRight, Sparkles, MessageSquare, Briefcase, Film, Image as ImageIcon, Music, Mic, Check, Clock, Cpu, MapPin, Ticket, Users, Monitor, UserCheck, Globe } from "lucide-react";
 import { CATEGORY_LABEL, JOURNEY, MENU, PACKAGES, SECTORS, STATIONS, ZONES, taka, type StationId } from "@/lib/data";
 import { STATION_IMG } from "@/lib/station-media";
 import { useLang } from "@/lib/i18n";
 import { PayBadges } from "@/components/SiteShell";
+import { openConcierge } from "@/lib/concierge-open";
+import { WORKFLOWS } from "@/lib/concierge-workflows";
+import conciergeAvatar from "@/assets/concierge.png";
 import { click } from "@/lib/sound";
 import heroImg from "@/assets/hero-ai-hub.jpg";
 import floorConcept from "@/assets/hub-floor-concept.jpg";
@@ -18,7 +21,7 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "AI HUB BD — Idea → AI → Product → Automation → Business" },
-      { name: "description", content: "AI HUB BD's proposed national AI innovation network: a Dhaka flagship with 200+ workstations, human consultants and robotic café, with a vision for 64 district hubs." },
+      { name: "description", content: "Chat with AI HUB BD's bilingual AI to turn ideas into businesses, plus a Dhaka flagship with 200+ workstations, human consultants and robotic café, with a vision for 64 district hubs." },
       { property: "og:title", content: "AI HUB BD — Bangladesh's National AI Innovation Network" },
       { property: "og:description", content: "Explore the Dhaka flagship and AI HUB BD's proposed 64-district national AI innovation and entrepreneurship network." },
       { property: "og:type", content: "website" },
@@ -44,6 +47,7 @@ function Index() {
   return (
     <>
       <Hero />
+      <AiChatFeature />
       <StationExplorer />
       <Section kicker={t("The value proposition", "আমাদের মূল্য প্রস্তাব")} title={t("Three layers that turn an idea into a business", "তিনটি স্তর যা আইডিয়াকে ব্যবসায় রূপ দেয়")}>
         <div className="grid gap-5 md:grid-cols-3">
@@ -136,11 +140,11 @@ function Hero() {
             )}
           </p>
           <div className="mt-6 grid gap-3 sm:mt-8 sm:flex sm:flex-wrap">
-            <Link to="/book" className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-brand px-6 py-3 font-semibold text-primary-foreground shadow-glow">
+            <button onClick={() => openConcierge()} className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-brand px-6 py-3 font-semibold text-primary-foreground shadow-glow">
+              <Sparkles className="h-4 w-4" /> {t("Chat with AI now — free", "এখনই এআই-এর সাথে চ্যাট — ফ্রি")}
+            </button>
+            <Link to="/book" className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-card/50 px-6 py-3 font-semibold">
               {t("Book a ৳100 session", "৳১০০ সেশন বুক করুন")} <ArrowRight className="h-4 w-4" />
-            </Link>
-            <Link to="/order" className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-card/50 px-6 py-3 font-semibold">
-              <Bot className="h-4 w-4 text-secondary" /> {t("Order from the robot café", "রোবট ক্যাফে থেকে অর্ডার")}
             </Link>
           </div>
           <dl className="mt-8 grid max-w-lg grid-cols-3 gap-3 sm:mt-10 sm:gap-4">
@@ -163,6 +167,52 @@ function Hero() {
         </div>
       </div>
     </section>
+  );
+}
+
+const FLOW_ICONS = { business: Briefcase, image: ImageIcon, video: Film, audio: Music };
+
+function AiChatFeature() {
+  const { t, lang } = useLang();
+  return (
+    <Section id="ai-chat" kicker={t("Our main feature · AI Chat", "আমাদের প্রধান ফিচার · এআই চ্যাট")} title={t("Chat with AI HUB BD's AI — turn your idea into a business", "AI HUB BD-র এআই-এর সাথে চ্যাট করুন — আইডিয়াকে ব্যবসায় রূপ দিন")} sub={t("Ask anything in English or Bangla, type or speak, and use guided workflows to get a full business plan, image prompts, video storyboards and jingles in minutes.", "ইংরেজি বা বাংলায় যেকোনো প্রশ্ন করুন, লিখে বা বলে — আর ধাপে ধাপে ওয়ার্কফ্লো দিয়ে মিনিটেই পান ব্যবসায়িক পরিকল্পনা, ইমেজ প্রম্পট, ভিডিও স্টোরিবোর্ড ও জিঙ্গেল।")}>
+      <div className="grid gap-6 lg:grid-cols-5">
+        <div className="glass relative flex flex-col overflow-hidden rounded-3xl p-6 shadow-glow lg:col-span-2">
+          <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-primary/30 blur-3xl" />
+          <img src={conciergeAvatar} alt="" width={72} height={72} loading="lazy" className="relative h-[72px] w-[72px]" />
+          <h3 className="relative mt-4 text-2xl font-extrabold">{t("Your AI co-founder, 24/7", "আপনার এআই কো-ফাউন্ডার, ২৪/৭")}</h3>
+          <ul className="relative mt-4 grid gap-2 text-sm">
+            {[
+              [MessageSquare, t("Smart answers in English & Bangla", "ইংরেজি ও বাংলায় স্মার্ট উত্তর")],
+              [Mic, t("Speak your question, hear the answer", "বলে প্রশ্ন করুন, শুনে উত্তর পান")],
+              [Sparkles, t("Step-by-step guided workflows", "ধাপে ধাপে গাইডেড ওয়ার্কফ্লো")],
+              [Check, t("Saved conversations in your browser", "আপনার ব্রাউজারে কথোপকথন সংরক্ষিত")],
+            ].map(([Icon, label]) => {
+              const I = Icon as typeof Check;
+              return <li key={label as string} className="flex gap-2"><I className="h-4 w-4 shrink-0 text-secondary" />{label as string}</li>;
+            })}
+          </ul>
+          <button onClick={() => openConcierge()} className="relative mt-6 inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-brand px-6 py-3 font-semibold text-primary-foreground shadow-glow">
+            <Sparkles className="h-4 w-4" /> {t("Start chatting", "চ্যাট শুরু করুন")}
+          </button>
+          <p className="relative mt-3 text-center text-xs text-muted-foreground">{t("Free online · go deeper at the hub with a ৳100 session", "অনলাইনে ফ্রি · হাবে ৳১০০ সেশনে আরও গভীরে যান")}</p>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:col-span-3">
+          {WORKFLOWS.map((w) => {
+            const Icon = FLOW_ICONS[w.id];
+            return (
+              <button key={w.id} onClick={() => openConcierge(w.id)} className="glass group flex flex-col rounded-2xl p-5 text-left transition hover:-translate-y-1 hover:shadow-cyan focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                <span className="grid h-11 w-11 place-items-center rounded-xl bg-gradient-brand text-primary-foreground"><Icon className="h-5 w-5" /></span>
+                <h3 className="mt-4 font-bold">{w.title[lang]}</h3>
+                <p className="mt-1 text-sm text-muted-foreground">{w.hint[lang]}</p>
+                <p className="mt-3 text-xs text-muted-foreground">{t(`${w.fields.length} quick questions → ${w.template.length}-part result`, `${w.fields.length}টি ছোট প্রশ্ন → ${w.template.length} অংশের ফলাফল`)}</p>
+                <span className="mt-auto inline-flex items-center gap-1 pt-4 text-sm font-semibold text-secondary">{t("Start workflow", "ওয়ার্কফ্লো শুরু")} <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" /></span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    </Section>
   );
 }
 
