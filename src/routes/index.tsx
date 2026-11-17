@@ -7,7 +7,7 @@ import { STATION_IMG } from "@/lib/station-media";
 import { useLang } from "@/lib/i18n";
 import { PayBadges } from "@/components/SiteShell";
 import { click } from "@/lib/sound";
-import tour from "@/assets/hub-cafe-tour.mp4.asset.json";
+import heroImg from "@/assets/hero-ai-hub.jpg";
 import floorConcept from "@/assets/hub-floor-concept.jpg";
 import { cn } from "@/lib/utils";
 import { KeyScrollRegion } from "@/components/KeyScrollRegion";
@@ -151,13 +151,13 @@ function Hero() {
         </div>
         <div className="relative">
           <div className="overflow-hidden rounded-3xl border border-border shadow-glow">
-            <video src={tour.url} poster={STATION_IMG.integrated} autoPlay muted loop playsInline className="aspect-[4/3] w-full object-cover" />
+            <img src={heroImg} alt="Entrepreneurs and consultants using AI workstations at AI HUB BD to turn ideas into AI products and automation" width={1600} height={1200} className="aspect-[4/3] w-full object-cover" />
           </div>
           <div className="glass absolute -bottom-6 left-4 flex items-center gap-3 rounded-2xl px-4 py-3 md:-left-6">
             <Users className="h-5 w-5 text-secondary" />
             <div>
-              <p className="text-xs text-muted-foreground">Café open now</p>
-              <p className="text-sm font-bold">Coffee · Snacks · Lunch · Dinner</p>
+              <p className="text-xs text-muted-foreground">{t("Use AI tools today", "আজই এআই ব্যবহার করুন")}</p>
+              <p className="text-sm font-bold">Idea · AI · Product · Automation</p>
             </div>
           </div>
         </div>
