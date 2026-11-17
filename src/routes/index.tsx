@@ -114,47 +114,47 @@ function Hero() {
     <section className="relative overflow-hidden grid-bg">
       <div className="pointer-events-none absolute -left-32 top-0 h-96 w-96 rounded-full bg-primary/30 blur-3xl" />
       <div className="pointer-events-none absolute -right-20 bottom-0 h-96 w-96 rounded-full bg-secondary/20 blur-3xl" />
-      <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-4 py-16 md:py-24 lg:grid-cols-2">
+      <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-4 pb-20 pt-8 sm:py-16 md:py-24 lg:grid-cols-2">
         <div className="animate-fade-up">
           <div className="flex flex-wrap gap-2">
             {badges.map((b) => (
-              <span key={b.label} className="glass inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold">
+              <span key={b.label} className="glass inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-semibold sm:px-3 sm:text-xs">
                 <span className="h-1.5 w-1.5 rounded-full bg-success live-dot" />
                 <b.icon className="h-3.5 w-3.5 text-secondary" />
                 {b.label}
               </span>
             ))}
           </div>
-          <h1 className="mt-6 text-4xl font-extrabold leading-[1.05] tracking-tight md:text-6xl">
+          <h1 className="mt-5 text-[2.1rem] font-extrabold leading-[1.08] tracking-tight sm:text-5xl md:text-6xl">
             {t("Bangladesh's first", "বাংলাদেশের প্রথম")} <span className="text-gradient">{t("physical AI hub", "ফিজিক্যাল এআই হাব")}</span>
           </h1>
-          <p className="mt-4 text-lg font-semibold text-gold">Idea → AI → Product → Automation → Business</p>
-          <p className="mt-4 max-w-xl text-muted-foreground md:text-lg">
+          <p className="mt-3 text-base font-semibold text-gold sm:mt-4 sm:text-lg">Idea → AI → Product → Automation → Business</p>
+          <p className="mt-3 max-w-xl text-[0.95rem] text-muted-foreground sm:mt-4 sm:text-base md:text-lg">
             {t(
               "An 8,000 sq ft flagship in Dhaka with 200+ AI-enabled workstations, human consultants, a production studio and a robotic food café — connected to a digital platform that keeps your business growing.",
               "ঢাকায় ৮,০০০ বর্গফুটের ফ্ল্যাগশিপ — ২০০+ এআই ওয়ার্কস্টেশন, মানব কনসালট্যান্ট, প্রোডাকশন স্টুডিও ও রোবোটিক ফুড ক্যাফে।",
             )}
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link to="/book" className="inline-flex items-center gap-2 rounded-xl bg-gradient-brand px-6 py-3 font-semibold text-primary-foreground shadow-glow">
+          <div className="mt-6 grid gap-3 sm:mt-8 sm:flex sm:flex-wrap">
+            <Link to="/book" className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-brand px-6 py-3 font-semibold text-primary-foreground shadow-glow">
               {t("Book a ৳100 session", "৳১০০ সেশন বুক করুন")} <ArrowRight className="h-4 w-4" />
             </Link>
-            <Link to="/order" className="inline-flex items-center gap-2 rounded-xl border border-border bg-card/50 px-6 py-3 font-semibold">
+            <Link to="/order" className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-card/50 px-6 py-3 font-semibold">
               <Bot className="h-4 w-4 text-secondary" /> {t("Order from the robot café", "রোবট ক্যাফে থেকে অর্ডার")}
             </Link>
           </div>
-          <dl className="mt-10 grid max-w-lg grid-cols-3 gap-4">
+          <dl className="mt-8 grid max-w-lg grid-cols-3 gap-3 sm:mt-10 sm:gap-4">
             {[["64", "district network vision"], ["8,000", "sq ft minimum / hub"], ["$100M", "national framework"]].map(([v, l]) => (
-              <div key={l}><dt className="text-2xl font-extrabold">{v}</dt><dd className="text-xs text-muted-foreground">{l}</dd></div>
+              <div key={l}><dt className="text-xl font-extrabold sm:text-2xl">{v}</dt><dd className="text-xs text-muted-foreground">{l}</dd></div>
             ))}
           </dl>
         </div>
         <div className="relative">
-          <div className="overflow-hidden rounded-3xl border border-border shadow-glow">
-            <img src={heroImg} alt="Entrepreneurs and consultants using AI workstations at AI HUB BD to turn ideas into AI products and automation" width={1600} height={1200} className="aspect-[4/3] w-full object-cover" />
+          <div className="overflow-hidden rounded-2xl border border-border shadow-glow sm:rounded-3xl">
+            <img src={heroImg} alt="Entrepreneurs and consultants using AI workstations at AI HUB BD to turn ideas into AI products and automation" width={1600} height={1200} className="aspect-[4/3] w-full object-cover object-[50%_40%]" />
           </div>
-          <div className="glass absolute -bottom-6 left-4 flex items-center gap-3 rounded-2xl px-4 py-3 md:-left-6">
-            <Users className="h-5 w-5 text-secondary" />
+          <div className="glass absolute -bottom-5 left-3 right-3 flex items-center gap-3 rounded-2xl px-3 py-2.5 sm:left-4 sm:right-auto sm:px-4 sm:py-3 md:-left-6">
+            <Users className="h-5 w-5 shrink-0 text-secondary" />
             <div>
               <p className="text-xs text-muted-foreground">{t("Use AI tools today", "আজই এআই ব্যবহার করুন")}</p>
               <p className="text-sm font-bold">Idea · AI · Product · Automation</p>
