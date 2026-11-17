@@ -8,6 +8,13 @@
       "when": 1794732254915,
       "tag": "0000_store_inquiry_submissions",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1794895030233,
+      "tag": "0001_create_district_hub_locations",
+      "breakpoints": true
     }
   ]
 }

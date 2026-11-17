@@ -17,6 +17,7 @@ import { Route as OrderRouteImport } from './routes/order'
 import { Route as SolutionsRouteImport } from './routes/solutions'
 import { Route as ChatThreadIdRouteImport } from './routes/chat.$threadId'
 import { Route as ApiPublicConciergeRouteImport } from './routes/api/public/concierge'
+import { Route as ApiPublicDistrictHubRefreshRouteImport } from './routes/api/public/district-hub-refresh'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -58,6 +59,12 @@ const ApiPublicConciergeRoute = ApiPublicConciergeRouteImport.update({
   path: '/api/public/concierge',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicDistrictHubRefreshRoute =
+  ApiPublicDistrictHubRefreshRouteImport.update({
+    id: '/api/public/district-hub-refresh',
+    path: '/api/public/district-hub-refresh',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -68,6 +75,7 @@ export interface FileRoutesByFullPath {
   '/solutions': typeof SolutionsRoute
   '/chat/$threadId': typeof ChatThreadIdRoute
   '/api/public/concierge': typeof ApiPublicConciergeRoute
+  '/api/public/district-hub-refresh': typeof ApiPublicDistrictHubRefreshRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -78,6 +86,7 @@ export interface FileRoutesByTo {
   '/solutions': typeof SolutionsRoute
   '/chat/$threadId': typeof ChatThreadIdRoute
   '/api/public/concierge': typeof ApiPublicConciergeRoute
+  '/api/public/district-hub-refresh': typeof ApiPublicDistrictHubRefreshRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -89,6 +98,7 @@ export interface FileRoutesById {
   '/solutions': typeof SolutionsRoute
   '/chat/$threadId': typeof ChatThreadIdRoute
   '/api/public/concierge': typeof ApiPublicConciergeRoute
+  '/api/public/district-hub-refresh': typeof ApiPublicDistrictHubRefreshRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -101,6 +111,7 @@ export interface FileRouteTypes {
     | '/solutions'
     | '/chat/$threadId'
     | '/api/public/concierge'
+    | '/api/public/district-hub-refresh'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -111,6 +122,7 @@ export interface FileRouteTypes {
     | '/solutions'
     | '/chat/$threadId'
     | '/api/public/concierge'
+    | '/api/public/district-hub-refresh'
   id:
     | '__root__'
     | '/'
@@ -121,6 +133,7 @@ export interface FileRouteTypes {
     | '/solutions'
     | '/chat/$threadId'
     | '/api/public/concierge'
+    | '/api/public/district-hub-refresh'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -132,6 +145,7 @@ export interface RootRouteChildren {
   SolutionsRoute: typeof SolutionsRoute
   ChatThreadIdRoute: typeof ChatThreadIdRoute
   ApiPublicConciergeRoute: typeof ApiPublicConciergeRoute
+  ApiPublicDistrictHubRefreshRoute: typeof ApiPublicDistrictHubRefreshRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -192,6 +206,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicConciergeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/district-hub-refresh': {
+      id: '/api/public/district-hub-refresh'
+      path: '/api/public/district-hub-refresh'
+      fullPath: '/api/public/district-hub-refresh'
+      preLoaderRoute: typeof ApiPublicDistrictHubRefreshRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -204,6 +225,7 @@ const rootRouteChildren: RootRouteChildren = {
   SolutionsRoute: SolutionsRoute,
   ChatThreadIdRoute: ChatThreadIdRoute,
   ApiPublicConciergeRoute: ApiPublicConciergeRoute,
+  ApiPublicDistrictHubRefreshRoute: ApiPublicDistrictHubRefreshRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

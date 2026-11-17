@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      district_hub_locations: {
+        Row: {
+          district_id: string
+          district_name: string
+          geocode_query: string
+          geocoded_at: string
+          latitude: number
+          longitude: number
+          rollout_phase: number
+        }
+        Insert: {
+          district_id: string
+          district_name: string
+          geocode_query: string
+          geocoded_at: string
+          latitude: number
+          longitude: number
+          rollout_phase: number
+        }
+        Update: {
+          district_id?: string
+          district_name?: string
+          geocode_query?: string
+          geocoded_at?: string
+          latitude?: number
+          longitude?: number
+          rollout_phase?: number
+        }
+        Relationships: []
+      }
       inquiry_submissions: {
         Row: {
           company: string | null

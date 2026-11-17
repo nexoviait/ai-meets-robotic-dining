@@ -1,4 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { DistrictRolloutMap } from "@/components/DistrictRolloutMap";
+import { districtHubsQueryOptions } from "@/lib/district-hubs";
 import {
   ArrowRight,
   BadgeCheck,
@@ -43,6 +46,7 @@ import { PageHeader } from "@/components/SiteShell";
 import { LeadForm } from "@/components/LeadForm";
 
 export const Route = createFileRoute("/investors")({
+  loader: ({ context }) => context.queryClient.ensureQueryData(districtHubsQueryOptions),
   head: () => ({
     meta: [
       { title: "Investors — AI HUB BD USD 100 Million National Framework" },
@@ -94,6 +98,7 @@ function CheckList({ items }: { items: readonly string[] }) {
 
 function InvestorsPage() {
   const { t } = useLang();
+  const { data: districtLocations } = useSuspenseQuery(districtHubsQueryOptions);
   const metrics = [
     { icon: Map, value: String(DISTRICT_HUB_COUNT), label: "Districts covered" },
     { icon: Network, value: String(DISTRICT_HUB_COUNT), label: "Proposed AI Hubs" },
@@ -237,9 +242,24 @@ function InvestorsPage() {
         </div>
       </section>
 
+      <section
+        className="mx-auto max-w-7xl px-4 pt-20"
+        aria-labelledby="national-rollout-map-title"
+      >
+        <SectionHeading
+          kicker="02 · Interactive national rollout map"
+          title="64 districts. One proposed AI Hub network."
+          body="Explore every district reference point, filter the proposed rollout phases and select a district for location details."
+        />
+        <span id="national-rollout-map-title" className="sr-only">
+          Interactive Bangladesh map of all 64 planned AI Hub locations
+        </span>
+        <DistrictRolloutMap locations={districtLocations} />
+      </section>
+
       <section className="mx-auto max-w-7xl px-4 pt-20">
         <SectionHeading
-          kicker="02 · National hub infrastructure"
+          kicker="03 · National hub infrastructure"
           title="One connected platform. Ten standard capabilities."
           body="Each proposed district center combines physical computing access, commercial services, skills development and startup support under one integrated national management and technology platform."
         />
@@ -257,7 +277,7 @@ function InvestorsPage() {
 
       <section className="mx-auto max-w-7xl px-4 pt-20">
         <SectionHeading
-          kicker="03 · Pilot investment strategy"
+          kicker="04 · Pilot investment strategy"
           title="Validate first. Scale with evidence."
           body="Two entry points establish a commercially viable, operationally scalable AI Hub model. The preferred initial national-scale pilot is USD 10 Million; USD 5 Million remains an alternative."
         />
@@ -319,7 +339,7 @@ function InvestorsPage() {
 
       <section className="mx-auto max-w-7xl px-4 pt-20">
         <SectionHeading
-          kicker="04 · National expansion roadmap"
+          kicker="05 · National expansion roadmap"
           title="A gated path from pilot to national ecosystem"
           body="The sequence is proposed and remains subject to funding, location selection and operational validation."
         />
@@ -341,7 +361,7 @@ function InvestorsPage() {
 
       <section className="mx-auto max-w-7xl px-4 pt-20">
         <SectionHeading
-          kicker="05 · Business & revenue model"
+          kicker="06 · Business & revenue model"
           title="A multi-service technology and entrepreneurship platform"
           body="Revenue is proposed through subscriptions, service fees, memberships, enterprise contracts, training fees and partnerships. These are business-model categories, not financial forecasts."
         />
