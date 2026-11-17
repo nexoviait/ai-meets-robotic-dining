@@ -4,7 +4,7 @@ import { conciergeInstructions, conciergeRequest } from "@/lib/concierge";
 /** The published app, whose concierge route holds the Lovable AI key. */
 const PUBLISHED_ORIGIN = "https://ai-meets-robotic-dining.lovable.app";
 
-/** Development only: streams the reply from the published concierge back to the local page. */
+/** For hosts without the Lovable AI key: streams the reply from the published concierge back. */
 async function relayToPublishedConcierge(body: string, signal: AbortSignal) {
   try {
     const upstream = await fetch(`${PUBLISHED_ORIGIN}/api/public/concierge`, {
@@ -22,7 +22,7 @@ async function relayToPublishedConcierge(body: string, signal: AbortSignal) {
     return new Response(upstream.body, { status: upstream.status, headers });
   } catch (error) {
     console.error("Concierge relay to the published site failed", error);
-    return new Response("The concierge is unavailable in local development right now.", {
+    return new Response("The concierge is unavailable right now.", {
       status: 502,
     });
   }
@@ -45,9 +45,10 @@ export const Route = createFileRoute("/api/public/concierge")({
         }
         const result = conciergeRequest.safeParse(parsed);
         if (!result.success) return new Response("Invalid conversation", { status: 400 });
-        // LOVABLE_API_KEY exists only on Lovable's hosting and sandbox. A local dev server has no
-        // key, so relay the already-validated conversation to the published concierge instead.
-        if (import.meta.env.DEV && !process.env["LOVABLE_API_KEY"])
+        // LOVABLE_API_KEY exists only on Lovable's hosting and sandbox. A local dev server or a
+        // deployment on another host has no key, so relay the already-validated conversation to
+        // the published concierge instead (never from the published origin itself, to avoid loops).
+        if (!process.env["LOVABLE_API_KEY"] && new URL(request.url).origin !== PUBLISHED_ORIGIN)
           return relayToPublishedConcierge(raw, request.signal);
         const { streamResponse, GatewayError } = await import("@lovable.dev/ai-gateway");
         const { createUIMessageStream, createUIMessageStreamResponse } = await import("ai");
