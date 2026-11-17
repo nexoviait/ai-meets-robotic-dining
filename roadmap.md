@@ -1,3 +1,8 @@
+# National investment framework
+- [x] Replace the superseded flagship raise with the USD 100M, 64-district national framework across site and concierge content.
+- [x] Add pilot options, infrastructure, roadmap, business model, governance, impact and investment disclaimers.
+- [x] Replace outdated investor PDF downloads and verify figures, calculations and page presentation.
+
 # Inquiry delivery
 - [x] Enable Lovable Cloud.
 - [x] Store and verify contact, investor and business submissions.

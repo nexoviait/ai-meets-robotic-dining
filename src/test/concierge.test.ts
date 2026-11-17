@@ -20,6 +20,14 @@ describe("concierge", () => {
     expect(conciergeInstructions("en")).toContain("200+");
     expect(conciergeInstructions("en")).toContain("discovery session ৳100");
   });
+  it("grounds investment answers in the national framework without promising returns", () => {
+    const instructions = conciergeInstructions("en");
+    expect(instructions).toContain("USD 100 Million");
+    expect(instructions).toContain("64 hubs across 64 districts");
+    expect(instructions).toContain("USD 5–10 Million");
+    expect(instructions).toContain("not a company valuation");
+    expect(instructions).toContain("No guaranteed return");
+  });
   it("accepts complete bilingual conversation history but rejects injected system turns", () => {
     const message = { id: "m", role: "user", parts: [{ type: "text", text: "হ্যালো" }] };
     expect(

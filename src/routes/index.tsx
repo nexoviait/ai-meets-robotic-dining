@@ -18,9 +18,9 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "AI HUB BD — Idea → AI → Product → Automation → Business" },
-      { name: "description", content: "Bangladesh's first physical AI innovation hub: 200+ AI workstations, human consultants and a 24/7 robotic food café in Dhaka." },
-      { property: "og:title", content: "AI HUB BD — Bangladesh's First AI Innovation Hub" },
-      { property: "og:description", content: "200+ AI workstations, human consultants and a 24/7 robotic café in Dhaka. Sessions from BDT 100." },
+      { name: "description", content: "AI HUB BD's proposed national AI innovation network: a Dhaka flagship with 200+ workstations, human consultants and robotic café, with a vision for 64 district hubs." },
+      { property: "og:title", content: "AI HUB BD — Bangladesh's National AI Innovation Network" },
+      { property: "og:description", content: "Explore the Dhaka flagship and AI HUB BD's proposed 64-district national AI innovation and entrepreneurship network." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -144,7 +144,7 @@ function Hero() {
             </Link>
           </div>
           <dl className="mt-10 grid max-w-lg grid-cols-3 gap-4">
-            {[["3,000", "seat-hours / day"], ["8,000", "sq ft flagship"], ["৳12,200 Cr", "launch plan"]].map(([v, l]) => (
+            {[["64", "district network vision"], ["8,000", "sq ft minimum / hub"], ["$100M", "national framework"]].map(([v, l]) => (
               <div key={l}><dt className="text-2xl font-extrabold">{v}</dt><dd className="text-xs text-muted-foreground">{l}</dd></div>
             ))}
           </dl>

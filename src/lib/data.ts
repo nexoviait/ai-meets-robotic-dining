@@ -101,24 +101,98 @@ export const SLOTS = [
 
 export const FOCUS = ["Idea Discovery", "Marketing & Branding", "Automation & Systems", "Enterprise Architecture"];
 
-export const FUNDS = [
-  { name: "Facility fit-out", value: 3050 },
-  { name: "Workstations & local compute", value: 2440 },
-  { name: "Working capital", value: 2440 },
-  { name: "Platform & AI R&D", value: 1830 },
-  { name: "Marketing", value: 1220 },
-  { name: "Reserve", value: 1220 },
-];
-
-export const RAISE_CR = FUNDS.reduce((s, f) => s + f.value, 0);
-export const BREAK_EVEN_MONTHLY_CR = 872;
-export const cr = (n: number) => n.toLocaleString("en-IN");
+export const BDT_PER_USD = 124.75;
+export const NATIONAL_INVESTMENT_USD = 100_000_000;
+export const PILOT_MIN_USD = 5_000_000;
+export const PILOT_MAX_USD = 10_000_000;
+export const DISTRICT_HUB_COUNT = 64;
+export const MIN_HUB_SQFT = 8_000;
+export const TOTAL_MIN_SQFT = DISTRICT_HUB_COUNT * MIN_HUB_SQFT;
+export const AVERAGE_HUB_USD = NATIONAL_INVESTMENT_USD / DISTRICT_HUB_COUNT;
+export const usdToBdtCrore = (usd: number) => (usd * BDT_PER_USD) / 10_000_000;
+export const crore = (n: number) => n.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 3 });
+export const usdMillions = (n: number) => `USD ${(n / 1_000_000).toLocaleString("en-US", { maximumFractionDigits: 4 })} Million`;
 
 export const ROADMAP = [
-  { phase: "Phase 1", when: "Days 0–90 · Prove", title: "Validate the model", points: ["Lease & design validation, app MVP", "30–50 workstation pilot", "3–5 paid packages, first 100 SME customers", "20–30 SME retainers; 300–500 sessions/day"] },
-  { phase: "Phase 2", when: "Months 4–6 · Launch", title: "Open the flagship", points: ["Open in phases to 200 workstations", "Consultant playbooks & case studies", "Subscription billing & customer success", "10–20 enterprise pilots; café pilot (coffee & snacks)"] },
-  { phase: "Phase 3", when: "Months 7–9 · Expand", title: "Grow recurring revenue", points: ["Enterprise pilots & managed services", "Channel partnerships", "Full café menu incl. lunch & dinner", "Freelancer capacity scaled"] },
-  { phase: "Phase 4", when: "Months 10–12 · Scale", title: "Reach break-even run-rate", points: [`Target ≥ BDT ${cr(BREAK_EVEN_MONTHLY_CR)} Cr monthly revenue run-rate`, "2,000+ daily sessions only if utilisation supports it", "Audited cash controls & annual audit"] },
+  { phase: "Phase 1", when: "Pilot development", title: "Prove the operating model", points: ["Secure USD 5–10 Million in pilot funding", "Establish the initial operational hubs", "Develop the central technology platform", "Validate service demand and revenue models"] },
+  { phase: "Phase 2", when: "Regional expansion", title: "Build regional capability", points: ["Expand to additional district hubs", "Establish regional management and technical support", "Develop education and business partnerships", "Standardize the hub operating playbook"] },
+  { phase: "Phase 3", when: "National network", title: "Connect all 64 districts", points: ["Progressively establish hubs across all 64 districts", "Standardize facilities and operating procedures", "Integrate every hub into one national AI ecosystem", "Scale only after funding and operational validation"] },
+  { phase: "Phase 4", when: "National AI ecosystem", title: "Deepen national impact", points: ["Build a nationwide entrepreneur and startup network", "Expand AI education and professional certification", "Develop international technology collaboration", "Position Bangladesh as a regional AI innovation destination"] },
+];
+
+export const HUB_INFRASTRUCTURE = [
+  "AI Workstation and Computing Zone",
+  "AI Training and Learning Academy",
+  "Startup Incubation and Innovation Center",
+  "Business Automation and AI Consulting Center",
+  "Software Development and Technology Lab",
+  "Robotics and Smart Technology Lab",
+  "Digital Marketing and Creative Production Studio",
+  "Entrepreneur Collaboration and Coworking Space",
+  "Conference, Meeting and Investor Presentation Rooms",
+  "Business Support and AI Research Facilities",
+];
+
+export const PILOT_OPTIONS = [
+  {
+    name: "Option A · Entry pilot",
+    usd: PILOT_MIN_USD,
+    share: "5% of the national target",
+    note: "Approximately 3.2 average hub-equivalents of investment capacity; actual centers may share central infrastructure.",
+    points: ["Initial AI Hub establishment", "Central AI technology platform", "Computing and workstation infrastructure", "AI training and entrepreneurship programs", "Initial staffing, operations and market validation"],
+  },
+  {
+    name: "Option B · Preferred pilot",
+    usd: PILOT_MAX_USD,
+    share: "10% of the national target",
+    note: "Approximately 5–6 pilot hubs may be possible, subject to final cost planning and shared national infrastructure.",
+    points: ["Initial district pilot hubs", "National AI technology backbone", "Expanded AI computing facilities", "Commercial AI services and startup incubation", "University, business and technology partnerships"],
+  },
+];
+
+export const REVENUE_STREAMS = [
+  { name: "AI Services", items: ["AI employee solutions and agents", "Business automation and enterprise implementation", "AI-powered customer support", "AI consulting and integration"] },
+  { name: "AI Education", items: ["Professional and corporate AI training", "AI entrepreneurship programs", "Technical workshops and certifications"] },
+  { name: "Technology & Infrastructure", items: ["AI workstation access", "Computing and cloud services", "Software development and subscriptions"] },
+  { name: "Business & Startup Ecosystem", items: ["Startup incubation and coworking memberships", "Business advisory and innovation programs", "Corporate partnerships and sponsored programs"] },
+  { name: "Creative & Digital Services", items: ["AI content, video and design production", "Digital marketing", "Business branding and automation"] },
+];
+
+export const ALLOCATION_CATEGORIES = [
+  "Physical infrastructure and facility development",
+  "AI computing hardware and workstations",
+  "Technology platforms and software development",
+  "Robotics, research and innovation facilities",
+  "Human resources and technical talent",
+  "Training, education and startup incubation",
+  "Marketing, business development and partnerships",
+  "Central management, governance and contingency",
+];
+
+export const PARTNERSHIP_TYPES = [
+  "International AI technology companies and cloud providers",
+  "Hardware, workstation, robotics and automation companies",
+  "Universities and research institutions",
+  "Local and international startup ecosystems",
+  "Banks, financial institutions and corporate investors",
+  "Government and development organizations",
+];
+
+export const GOVERNANCE_STRUCTURE = [
+  "Board of Directors and executive leadership",
+  "Chief Executive, Technology and Financial Officers",
+  "National Operations Director and District Hub Managers",
+  "Technology, innovation, finance, compliance and audit teams",
+  "Standardized reporting, monitoring and performance measurement",
+];
+
+export const NATIONAL_IMPACT = [
+  "Expand district-level access to artificial intelligence",
+  "Support local entrepreneurs, startups and SMEs",
+  "Create technology-based employment opportunities",
+  "Improve digital skills and workforce readiness",
+  "Encourage research, innovation and technology development",
+  "Connect district businesses with national and international markets",
 ];
 
 export const HUB = {

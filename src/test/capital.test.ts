@@ -1,20 +1,49 @@
 import { describe, expect, it } from "vitest";
-import { FUNDS, RAISE_CR, BREAK_EVEN_MONTHLY_CR, ROADMAP, cr } from "@/lib/data";
+import {
+  AVERAGE_HUB_USD,
+  BDT_PER_USD,
+  DISTRICT_HUB_COUNT,
+  MIN_HUB_SQFT,
+  NATIONAL_INVESTMENT_USD,
+  PILOT_MAX_USD,
+  PILOT_MIN_USD,
+  ROADMAP,
+  TOTAL_MIN_SQFT,
+  crore,
+  usdToBdtCrore,
+} from "@/lib/data";
 
-describe("capital plan", () => {
-  it("raises BDT 12,200 Cr in total", () => {
-    expect(RAISE_CR).toBe(12200);
-    expect(FUNDS.reduce((s, f) => s + f.value, 0)).toBe(12200);
+describe("national investment framework", () => {
+  it("targets USD 100 million, not USD 1 billion", () => {
+    expect(NATIONAL_INVESTMENT_USD).toBe(100_000_000);
+    expect(NATIONAL_INVESTMENT_USD).not.toBe(1_000_000_000);
   });
-  it("splits the raise across six funds in crore", () => {
-    expect(FUNDS.find((f) => f.name === "Facility fit-out")?.value).toBe(3050);
-    expect(FUNDS.find((f) => f.name === "Reserve")?.value).toBe(1220);
-    expect(cr(3050)).toBe("3,050");
-    expect(cr(12200)).toBe("12,200");
+
+  it("plans one minimum 8,000 sq ft hub in each of 64 districts", () => {
+    expect(DISTRICT_HUB_COUNT).toBe(64);
+    expect(MIN_HUB_SQFT).toBe(8_000);
+    expect(TOTAL_MIN_SQFT).toBe(512_000);
+    expect(AVERAGE_HUB_USD).toBe(1_562_500);
   });
-  it("sets the break-even run-rate at BDT 872 Cr a month", () => {
-    expect(BREAK_EVEN_MONTHLY_CR).toBe(872);
-    const last = ROADMAP.find((r) => r.phase === "Phase 4");
-    expect(last?.points.join(" ")).toContain("BDT 872 Cr monthly revenue run-rate");
+
+  it("converts the national target at the indicative BDT 124.75 reference", () => {
+    expect(BDT_PER_USD).toBe(124.75);
+    expect(usdToBdtCrore(NATIONAL_INVESTMENT_USD)).toBe(1247.5);
+    expect(crore(usdToBdtCrore(NATIONAL_INVESTMENT_USD))).toBe("1,247.50");
+  });
+
+  it("converts both USD 5–10 million pilot options correctly", () => {
+    expect(PILOT_MIN_USD).toBe(5_000_000);
+    expect(PILOT_MAX_USD).toBe(10_000_000);
+    expect(crore(usdToBdtCrore(PILOT_MIN_USD))).toBe("62.375");
+    expect(crore(usdToBdtCrore(PILOT_MAX_USD))).toBe("124.75");
+    expect(PILOT_MIN_USD / NATIONAL_INVESTMENT_USD).toBe(0.05);
+    expect(PILOT_MAX_USD / NATIONAL_INVESTMENT_USD).toBe(0.1);
+  });
+
+  it("makes national network development the third proposed phase", () => {
+    const nationalPhase = ROADMAP.find((phase) => phase.phase === "Phase 3");
+    expect(nationalPhase?.title).toBe("Connect all 64 districts");
+    expect(nationalPhase?.points.join(" ")).toContain("one national AI ecosystem");
   });
 });
