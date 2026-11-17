@@ -6,10 +6,20 @@ const item = (id: string) => MENU.find((m) => m.id === id)!;
 
 describe("menu prices from the brief", () => {
   it("lunch menu prices", () => {
-    expect([item("chicken-curry").price, item("beef-curry").price, item("fish-curry").price, item("veg-meal").price]).toEqual([220, 280, 240, 180]);
+    expect([
+      item("chicken-curry").price,
+      item("beef-curry").price,
+      item("fish-curry").price,
+      item("veg-meal").price,
+    ]).toEqual([220, 280, 240, 180]);
   });
   it("dinner menu prices", () => {
-    expect([item("chicken-biryani").price, item("beef-tehari").price, item("khichuri").price, item("combo").price]).toEqual([250, 300, 200, 320]);
+    expect([
+      item("chicken-biryani").price,
+      item("beef-tehari").price,
+      item("khichuri").price,
+      item("combo").price,
+    ]).toEqual([250, 300, 200, 320]);
   });
 });
 

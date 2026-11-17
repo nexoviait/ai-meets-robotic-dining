@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { DistrictRolloutMap } from "@/components/DistrictRolloutMap";
 import { districtHubsQueryOptions } from "@/lib/district-hubs";
 import {
@@ -46,7 +46,10 @@ import { PageHeader } from "@/components/SiteShell";
 import { LeadForm } from "@/components/LeadForm";
 
 export const Route = createFileRoute("/investors")({
-  loader: ({ context }) => context.queryClient.ensureQueryData(districtHubsQueryOptions),
+  // The district map is one section of the page; a lookup failure must not take down the rest.
+  // Loader data is serialized to the client, so hydration renders the same map the server did.
+  loader: ({ context }) =>
+    context.queryClient.ensureQueryData(districtHubsQueryOptions).catch(() => null),
   head: () => ({
     meta: [
       { title: "Investors — AI HUB BD USD 100 Million National Framework" },
@@ -98,7 +101,11 @@ function CheckList({ items }: { items: readonly string[] }) {
 
 function InvestorsPage() {
   const { t } = useLang();
-  const { data: districtLocations } = useSuspenseQuery(districtHubsQueryOptions);
+  const loadedLocations = Route.useLoaderData();
+  // Only retry in the browser when the loader could not fetch the locations.
+  const retry = useQuery({ ...districtHubsQueryOptions, enabled: !loadedLocations });
+  const districtLocations = loadedLocations ?? retry.data;
+  const districtMapFailed = retry.isError;
   const metrics = [
     { icon: Map, value: String(DISTRICT_HUB_COUNT), label: "Districts covered" },
     { icon: Network, value: String(DISTRICT_HUB_COUNT), label: "Proposed AI Hubs" },
@@ -139,10 +146,7 @@ function InvestorsPage() {
   return (
     <>
       <PageHeader
-        kicker={t(
-          "National investment framework · Bangladesh",
-          "জাতীয় বিনিয়োগ কাঠামো · বাংলাদেশ",
-        )}
+        kicker={t("National investment framework · Bangladesh", "জাতীয় বিনিয়োগ কাঠামো · বাংলাদেশ")}
         title={
           <>
             <span className="text-gradient">USD 100 Million</span>{" "}
@@ -254,7 +258,18 @@ function InvestorsPage() {
         <span id="national-rollout-map-title" className="sr-only">
           Interactive Bangladesh map of all 64 planned AI Hub locations
         </span>
-        <DistrictRolloutMap locations={districtLocations} />
+        {districtLocations ? (
+          <DistrictRolloutMap locations={districtLocations} />
+        ) : (
+          <p
+            role="status"
+            className="mt-8 rounded-2xl border border-border bg-card p-6 text-sm text-muted-foreground"
+          >
+            {districtMapFailed
+              ? "The district map is temporarily unavailable. Please refresh the page to try again."
+              : "Loading the national district map…"}
+          </p>
+        )}
       </section>
 
       <section className="mx-auto max-w-7xl px-4 pt-20">

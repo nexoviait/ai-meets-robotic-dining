@@ -1,10 +1,23 @@
 import { useState } from "react";
 import { ClientOnly } from "@tanstack/react-router";
-import { BadgeCheck, Building2, CircleDashed, Info, MapPin, Navigation, Search } from "lucide-react";
+import {
+  BadgeCheck,
+  Building2,
+  CircleDashed,
+  Info,
+  MapPin,
+  Navigation,
+  Search,
+} from "lucide-react";
 import { DistrictGoogleMap } from "./DistrictGoogleMap";
 import { KeyScrollRegion } from "./KeyScrollRegion";
 import { HUB, MIN_HUB_SQFT } from "@/lib/data";
-import { districtHubStatus, PHASE_INFO, type DistrictHubLocation, type RolloutPhase } from "@/lib/district-hub-plan";
+import {
+  districtHubStatus,
+  PHASE_INFO,
+  type DistrictHubLocation,
+  type RolloutPhase,
+} from "@/lib/district-hub-plan";
 import { cn } from "@/lib/utils";
 
 const PHASE_BADGES: Record<RolloutPhase, string> = {
@@ -113,9 +126,16 @@ export function DistrictRolloutMap({ locations }: { locations: readonly District
         ))}
       </div>
 
-      <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-xs" aria-label="Hub confirmation status legend">
-        <span className="inline-flex items-center gap-2 text-secondary"><BadgeCheck className="h-4 w-4" />C · Confirmed flagship (Dhaka)</span>
-        <span className="inline-flex items-center gap-2 text-muted-foreground"><CircleDashed className="h-4 w-4" />P · Proposed hub (63 districts)</span>
+      <div
+        className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-xs"
+        aria-label="Hub confirmation status legend"
+      >
+        <span className="inline-flex items-center gap-2 text-secondary">
+          <BadgeCheck className="h-4 w-4" />C · Confirmed flagship (Dhaka)
+        </span>
+        <span className="inline-flex items-center gap-2 text-muted-foreground">
+          <CircleDashed className="h-4 w-4" />P · Proposed hub (63 districts)
+        </span>
       </div>
 
       <div className="mt-5 grid gap-5 xl:grid-cols-[minmax(0,1.5fr)_minmax(330px,0.8fr)]">
@@ -169,8 +189,19 @@ export function DistrictRolloutMap({ locations }: { locations: readonly District
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <p className="text-lg font-extrabold">{selected.name} AI Hub</p>
-                  <p className={cn("mt-2 inline-flex items-center gap-1.5 rounded-md border px-2 py-1 text-xs font-bold", districtHubStatus(selected.id).confirmed ? "border-secondary/30 bg-secondary/10 text-secondary" : "border-border text-muted-foreground")}>
-                    {districtHubStatus(selected.id).confirmed ? <BadgeCheck className="h-3.5 w-3.5 shrink-0" /> : <CircleDashed className="h-3.5 w-3.5 shrink-0" />}
+                  <p
+                    className={cn(
+                      "mt-2 inline-flex items-center gap-1.5 rounded-md border px-2 py-1 text-xs font-bold",
+                      districtHubStatus(selected.id).confirmed
+                        ? "border-secondary/30 bg-secondary/10 text-secondary"
+                        : "border-border text-muted-foreground",
+                    )}
+                  >
+                    {districtHubStatus(selected.id).confirmed ? (
+                      <BadgeCheck className="h-3.5 w-3.5 shrink-0" />
+                    ) : (
+                      <CircleDashed className="h-3.5 w-3.5 shrink-0" />
+                    )}
                     {districtHubStatus(selected.id).label}
                   </p>
                 </div>
@@ -236,7 +267,19 @@ export function DistrictRolloutMap({ locations }: { locations: readonly District
                             PHASE_DOTS[location.phase],
                           )}
                         />
-                        <span className="min-w-0"><span className="block font-semibold">{location.name}</span><span className={cn("block text-[11px]", districtHubStatus(location.id).confirmed ? "text-secondary" : "text-muted-foreground")}>{districtHubStatus(location.id).label}</span></span>
+                        <span className="min-w-0">
+                          <span className="block font-semibold">{location.name}</span>
+                          <span
+                            className={cn(
+                              "block text-[11px]",
+                              districtHubStatus(location.id).confirmed
+                                ? "text-secondary"
+                                : "text-muted-foreground",
+                            )}
+                          >
+                            {districtHubStatus(location.id).label}
+                          </span>
+                        </span>
                       </span>
                       <span className="text-xs text-muted-foreground">Phase {location.phase}</span>
                     </button>

@@ -2,7 +2,17 @@ import { useRef, useState, type ReactNode } from "react";
 import { nextScrollTop, scrollPercent } from "@/lib/scroll-keys";
 import { cn } from "@/lib/utils";
 
-export function KeyScrollRegion({ label, positionLabel, className, children }: { label: string; positionLabel: (pct: number) => string; className?: string; children: ReactNode }) {
+export function KeyScrollRegion({
+  label,
+  positionLabel,
+  className,
+  children,
+}: {
+  label: string;
+  positionLabel: (pct: number) => string;
+  className?: string;
+  children: ReactNode;
+}) {
   const ref = useRef<HTMLDivElement>(null);
   const [msg, setMsg] = useState("");
   const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -18,10 +28,20 @@ export function KeyScrollRegion({ label, positionLabel, className, children }: {
   };
   return (
     <>
-      <div ref={ref} tabIndex={0} role="region" aria-label={label} aria-keyshortcuts="ArrowUp ArrowDown PageUp PageDown Home End" onKeyDown={onKeyDown} className={cn("nice-scroll", className)}>
+      <div
+        ref={ref}
+        tabIndex={0}
+        role="region"
+        aria-label={label}
+        aria-keyshortcuts="ArrowUp ArrowDown PageUp PageDown Home End"
+        onKeyDown={onKeyDown}
+        className={cn("nice-scroll", className)}
+      >
         {children}
       </div>
-      <span className="sr-only" aria-live="polite" aria-atomic="true">{msg}</span>
+      <span className="sr-only" aria-live="polite" aria-atomic="true">
+        {msg}
+      </span>
     </>
   );
 }

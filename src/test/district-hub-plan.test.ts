@@ -5,7 +5,9 @@ import { INITIAL_DISTRICT_COORDINATES } from "@/lib/district-hub-coordinates.ser
 describe("national district rollout plan", () => {
   it("marks only the Dhaka flagship as confirmed", () => {
     expect(districtHubStatus("dhaka").confirmed).toBe(true);
-    expect(DISTRICT_HUB_PLAN.filter((hub) => districtHubStatus(hub.id).confirmed).map((hub) => hub.id)).toEqual(["dhaka"]);
+    expect(
+      DISTRICT_HUB_PLAN.filter((hub) => districtHubStatus(hub.id).confirmed).map((hub) => hub.id),
+    ).toEqual(["dhaka"]);
   });
 
   it("keeps all 63 other district hubs proposed", () => {

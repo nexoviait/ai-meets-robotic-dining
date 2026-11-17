@@ -57,7 +57,9 @@ export const OPTIONS: Record<string, { name: string; values: string[] }[]> = {
 };
 
 export function unitPrice(item: MenuItem, options: Record<string, string>, extras: string[]) {
-  const extraTotal = (EXTRAS[item.category] ?? []).filter((e) => extras.includes(e.id)).reduce((s, e) => s + e.price, 0);
+  const extraTotal = (EXTRAS[item.category] ?? [])
+    .filter((e) => extras.includes(e.id))
+    .reduce((s, e) => s + e.price, 0);
   const sizeUp = options["Size"]?.startsWith("Large") ? 40 : 0;
   return item.price + extraTotal + sizeUp;
 }
@@ -72,7 +74,12 @@ export function prepDuration(lines: CartLine[]) {
   return Math.round(Math.min(90, slowest / 4 + count * 3));
 }
 
-export const STAGES = ["Order Placed", "Robotic Arms Preparing", "Quality Check Tray", "Ready at Smart Counter"] as const;
+export const STAGES = [
+  "Order Placed",
+  "Robotic Arms Preparing",
+  "Quality Check Tray",
+  "Ready at Smart Counter",
+] as const;
 
 export function orderStage(order: Pick<Order, "createdAt" | "durationSec">, now: number) {
   const elapsed = (now - order.createdAt) / 1000;

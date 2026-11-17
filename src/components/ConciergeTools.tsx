@@ -1,5 +1,15 @@
 import { useEffect, useRef, useState } from "react";
-import { Briefcase, Film, Image as ImageIcon, Mic, MicOff, Music, Sparkles, Volume2, VolumeX } from "lucide-react";
+import {
+  Briefcase,
+  Film,
+  Image as ImageIcon,
+  Mic,
+  MicOff,
+  Music,
+  Sparkles,
+  Volume2,
+  VolumeX,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -14,7 +24,6 @@ import { WORKFLOWS, type Workflow } from "@/lib/concierge-workflows";
 
 const ICONS = { business: Briefcase, image: ImageIcon, video: Film, audio: Music };
 
-
 type Recognition = {
   lang: string;
   interimResults: boolean;
@@ -28,7 +37,8 @@ type Recognition = {
 
 function getRecognition(): (new () => Recognition) | undefined {
   const w = window as unknown as Record<string, unknown>;
-  return (w["SpeechRecognition"] ?? w["webkitSpeechRecognition"]) as (new () => Recognition) | undefined;
+  return (w["SpeechRecognition"] ?? w["webkitSpeechRecognition"]) as
+    (new () => Recognition) | undefined;
 }
 
 export function ConciergeTools({ onPick }: { onPick: (w: Workflow) => void }) {
@@ -36,7 +46,12 @@ export function ConciergeTools({ onPick }: { onPick: (w: Workflow) => void }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button type="button" variant="outline" size="sm" aria-label={t("Open AI tools menu", "এআই টুলস মেনু খুলুন")}>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          aria-label={t("Open AI tools menu", "এআই টুলস মেনু খুলুন")}
+        >
           <Sparkles className="text-secondary" />
           {t("AI tools", "এআই টুলস")}
         </Button>
@@ -47,13 +62,17 @@ export function ConciergeTools({ onPick }: { onPick: (w: Workflow) => void }) {
         {WORKFLOWS.map((w) => {
           const Icon = ICONS[w.id];
           return (
-          <DropdownMenuItem key={w.id} onSelect={() => onPick(w)} className="items-start gap-3 py-2">
-            <Icon className="mt-0.5 text-secondary" />
-            <span>
-              <span className="block font-semibold">{w.title[lang]}</span>
-              <span className="block text-xs text-muted-foreground">{w.hint[lang]}</span>
-            </span>
-          </DropdownMenuItem>
+            <DropdownMenuItem
+              key={w.id}
+              onSelect={() => onPick(w)}
+              className="items-start gap-3 py-2"
+            >
+              <Icon className="mt-0.5 text-secondary" />
+              <span>
+                <span className="block font-semibold">{w.title[lang]}</span>
+                <span className="block text-xs text-muted-foreground">{w.hint[lang]}</span>
+              </span>
+            </DropdownMenuItem>
           );
         })}
       </DropdownMenuContent>
@@ -62,7 +81,13 @@ export function ConciergeTools({ onPick }: { onPick: (w: Workflow) => void }) {
 }
 
 /** Voice typing using the browser's speech recognition (English or Bangla). */
-export function VoiceInputButton({ onText, disabled }: { onText: (text: string) => void; disabled?: boolean }) {
+export function VoiceInputButton({
+  onText,
+  disabled,
+}: {
+  onText: (text: string) => void;
+  disabled?: boolean;
+}) {
   const { t, lang } = useLang();
   const [listening, setListening] = useState(false);
   const [supported, setSupported] = useState(false);
@@ -81,7 +106,10 @@ export function VoiceInputButton({ onText, disabled }: { onText: (text: string) 
     r.interimResults = false;
     r.continuous = false;
     r.onresult = (e) => {
-      const text = Array.from(e.results).map((x) => x[0]?.transcript ?? "").join(" ").trim();
+      const text = Array.from(e.results)
+        .map((x) => x[0]?.transcript ?? "")
+        .join(" ")
+        .trim();
       if (text) onText(text);
     };
     r.onend = () => setListening(false);
@@ -98,7 +126,11 @@ export function VoiceInputButton({ onText, disabled }: { onText: (text: string) 
       disabled={disabled}
       onClick={toggle}
       aria-pressed={listening}
-      aria-label={listening ? t("Stop voice input", "ভয়েস ইনপুট থামান") : t("Speak your message", "কথা বলে বার্তা দিন")}
+      aria-label={
+        listening
+          ? t("Stop voice input", "ভয়েস ইনপুট থামান")
+          : t("Speak your message", "কথা বলে বার্তা দিন")
+      }
       title={listening ? t("Listening…", "শুনছি…") : t("Voice input", "ভয়েস ইনপুট")}
     >
       {listening ? <MicOff /> : <Mic />}
@@ -128,7 +160,11 @@ export function ReadAloudToggle({ on, onChange }: { on: boolean; onChange: (v: b
         onChange(!on);
       }}
       aria-pressed={on}
-      aria-label={on ? t("Turn off spoken replies", "কথ্য উত্তর বন্ধ") : t("Read replies aloud", "উত্তর পড়ে শোনান")}
+      aria-label={
+        on
+          ? t("Turn off spoken replies", "কথ্য উত্তর বন্ধ")
+          : t("Read replies aloud", "উত্তর পড়ে শোনান")
+      }
       title={t("Voice replies", "ভয়েস উত্তর")}
     >
       {on ? <Volume2 /> : <VolumeX />}

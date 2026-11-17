@@ -1,6 +1,13 @@
 import { useEffect, useRef, useState } from "react";
+import { mapsAllowedHere } from "@/lib/maps-origin";
+import { DistrictSchematicMap } from "./DistrictSchematicMap";
 import { Map as MapIcon } from "lucide-react";
-import { districtHubStatus, PHASE_INFO, type DistrictHubLocation, type RolloutPhase } from "@/lib/district-hub-plan";
+import {
+  districtHubStatus,
+  PHASE_INFO,
+  type DistrictHubLocation,
+  type RolloutPhase,
+} from "@/lib/district-hub-plan";
 
 const MARKER_COLORS: Record<RolloutPhase, string> = {
   1: "#F59E0B",
@@ -25,7 +32,11 @@ const DARK_MAP_STYLES: google.maps.MapTypeStyle[] = [
   { featureType: "landscape.natural", elementType: "geometry", stylers: [{ color: "#0D1324" }] },
 ];
 
-function markerIcon(phase: RolloutPhase, selected: boolean, confirmed: boolean): google.maps.Symbol {
+function markerIcon(
+  phase: RolloutPhase,
+  selected: boolean,
+  confirmed: boolean,
+): google.maps.Symbol {
   return {
     path: google.maps.SymbolPath.CIRCLE,
     fillColor: MARKER_COLORS[phase],
@@ -65,11 +76,17 @@ export function DistrictGoogleMap({
     const listeners: google.maps.MapsEventListener[] = [];
     const key = import.meta.env["VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_BROWSER_KEY"];
     const channel = import.meta.env["VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_TRACKING_ID"] ?? "";
-    const authorized = window.location.hostname.endsWith(".lovable.app");
+    const authorized = mapsAllowedHere();
     if (!authorized || !key) {
       setStatus("unavailable");
       return;
     }
+
+    // Google calls this when the key is rejected (e.g. referrer not allowed); show our
+    // fallback instead of Google's grey "Oops" tile.
+    (window as unknown as { gm_authFailure?: () => void }).gm_authFailure = () => {
+      if (!cancelled) setStatus("error");
+    };
 
     const initialize = () => {
       if (cancelled) return;
@@ -97,7 +114,12 @@ export function DistrictGoogleMap({
           map,
           position: { lat: location.lat, lng: location.lng },
           title: `${location.name} AI Hub — ${hubStatus.label} — ${PHASE_INFO[location.phase].timing}`,
-          label: { text: hubStatus.pinLabel, color: getComputedStyle(container).color, fontWeight: "700", fontSize: "11px" },
+          label: {
+            text: hubStatus.pinLabel,
+            color: getComputedStyle(container).color,
+            fontWeight: "700",
+            fontSize: "11px",
+          },
           icon: markerIcon(location.phase, location.id === selectedId, hubStatus.confirmed),
         });
         listeners.push(marker.addListener("click", () => selectRef.current(location.id)));
@@ -165,7 +187,10 @@ export function DistrictGoogleMap({
     if (status !== "ready") return;
     markersRef.current.forEach((marker, id) => {
       const location = locations.find((item) => item.id === id);
-      if (location) marker.setIcon(markerIcon(location.phase, id === selectedId, districtHubStatus(id).confirmed));
+      if (location)
+        marker.setIcon(
+          markerIcon(location.phase, id === selectedId, districtHubStatus(id).confirmed),
+        );
     });
     const selected = locations.find((location) => location.id === selectedId);
     const marker = markersRef.current.get(selectedId);
@@ -196,21 +221,29 @@ export function DistrictGoogleMap({
         className="absolute inset-0 h-full w-full text-foreground"
         aria-label="Interactive Google Map of 64 AI Hubs: Dhaka confirmed flagship and 63 proposed district hubs"
       />
-      {status !== "ready" && (
+      {status === "loading" && (
         <div className="absolute inset-0 grid place-items-center bg-card/70 p-6 text-center backdrop-blur-sm">
           <div className="max-w-sm">
             <MapIcon className="mx-auto h-8 w-8 text-secondary" />
-            <p className="mt-3 font-bold">
-              {status === "loading" && "Loading the national district map…"}
-              {status === "error" && "The map could not load"}
-              {status === "unavailable" && "Interactive map available on the published site"}
-            </p>
-            <p className="mt-2 text-sm leading-6 text-muted-foreground">
-              {status === "error"
-                ? "Use the district explorer to view every location and rollout phase."
-                : "The district explorer includes all 64 locations, filters and selection details."}
-            </p>
+            <p className="mt-3 font-bold">Loading the national district map…</p>
           </div>
+        </div>
+      )}
+      {(status === "unavailable" || status === "error") && (
+        // Google Maps can't run here (the managed key only works on *.lovable.app, or the
+        // load failed), so draw the same locations on a built-in map of Bangladesh instead.
+        <div className="absolute inset-0 grid-bg p-3">
+          <DistrictSchematicMap
+            locations={locations}
+            visibleLocations={visibleLocations}
+            selectedId={selectedId}
+            onSelect={onSelect}
+          />
+          <p className="absolute bottom-3 left-3 right-3 text-center text-[11px] text-muted-foreground sm:left-auto sm:text-right">
+            {status === "error"
+              ? "Simplified map · Google Maps could not load"
+              : "Simplified map · the interactive Google map runs on the published site"}
+          </p>
         </div>
       )}
     </div>

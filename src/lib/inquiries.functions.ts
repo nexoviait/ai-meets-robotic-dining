@@ -2,7 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { inquirySchema } from "./inquiry-schema";
 
 export const submitInquiry = createServerFn({ method: "POST" })
-  .inputValidator((input: unknown) => inquirySchema.parse(input))
+  .validator((input: unknown) => inquirySchema.parse(input))
   .handler(async ({ data }) => {
     // Public, insert-only intake: no caller-selected table, reads or recipients.
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");

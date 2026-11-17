@@ -9,6 +9,12 @@
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
+// Uploaded assets (src/assets/*.asset.json → /__l5e/assets-v1/...) are served by Lovable hosting,
+// not from the repo. The config's built-in dev-server asset proxy forwards those requests to
+// LOVABLE_PREVIEW_HOST; Lovable's sandbox sets it, so default it to the published site for local
+// development. Dev server only — production builds are unaffected.
+process.env["LOVABLE_PREVIEW_HOST"] ??= "ai-meets-robotic-dining.lovable.app";
+
 export default defineConfig({
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).

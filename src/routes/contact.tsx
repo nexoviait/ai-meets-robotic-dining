@@ -11,9 +11,15 @@ export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
       { title: "Contact & Location — AI HUB BD Dhaka Flagship" },
-      { name: "description", content: `Visit AI HUB BD at ${HUB.address}. Open 6:00 AM – 11:00 PM, café 24/7. Corporate inquiries, feedback and WhatsApp.` },
+      {
+        name: "description",
+        content: `Visit AI HUB BD at ${HUB.address}. Open 6:00 AM – 11:00 PM, café 24/7. Corporate inquiries, feedback and WhatsApp.`,
+      },
       { property: "og:title", content: "Visit AI HUB BD in Dhaka" },
-      { property: "og:description", content: `Find AI HUB BD at ${HUB.address}. Open 6 AM – 11 PM daily, robotic café 24/7.` },
+      {
+        property: "og:description",
+        content: `Find AI HUB BD at ${HUB.address}. Open 6 AM – 11 PM daily, robotic café 24/7.`,
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -31,24 +37,76 @@ function ContactPage() {
   ];
   return (
     <>
-      <PageHeader kicker={t("Hub location & contact", "লোকেশন ও যোগাযোগ")} title={<>{t("Come build with us in", "আমাদের সাথে তৈরি করুন")} <span className="text-gradient">{t("Dhaka", "ঢাকায়")}</span></>} />
+      <PageHeader
+        kicker={t("Hub location & contact", "লোকেশন ও যোগাযোগ")}
+        title={
+          <>
+            {t("Come build with us in", "আমাদের সাথে তৈরি করুন")}{" "}
+            <span className="text-gradient">{t("Dhaka", "ঢাকায়")}</span>
+          </>
+        }
+      />
       <section className="mx-auto grid max-w-7xl gap-8 px-4 py-12 lg:grid-cols-2">
         <div className="grid content-start gap-4">
-          <div className="overflow-hidden rounded-3xl border border-border"><img src={building.url} alt="Night-time exterior of Gawsia Twin Peak, showing its illuminated multi-storey facade and entrance at 30 N Circular Rd, Dhaka 1205" className="aspect-video w-full object-contain" /></div>
+          {/* The uploaded photo is a portrait shot padded with solid teal to a 16:9 frame
+              (photo at x 272–759 of 1024). Crop the padding off and fill the card's sides
+              with a blurred, zoomed copy of the photo instead. */}
+          <div className="relative aspect-video overflow-hidden rounded-3xl border border-border bg-card">
+            <img
+              src={building.url}
+              alt=""
+              aria-hidden
+              className="absolute inset-0 h-full w-full scale-[2.2] object-cover opacity-50 blur-xl"
+            />
+            <img
+              src={building.url}
+              alt="Night-time exterior of Gawsia Twin Peak, showing its illuminated multi-storey facade and entrance at 30 N Circular Rd, Dhaka 1205"
+              width={460}
+              height={576}
+              className="relative mx-auto aspect-[4/5] h-full w-auto object-cover object-[50.6%_50%]"
+            />
+          </div>
           <div className="grid gap-3 sm:grid-cols-2">
             {info.map((i) => (
-              <div key={i.label} className="glass rounded-2xl p-4"><i.icon className="h-5 w-5 text-secondary" /><p className="mt-2 text-xs text-muted-foreground">{i.label}</p><p className="font-semibold">{i.value}</p></div>
+              <div key={i.label} className="glass rounded-2xl p-4">
+                <i.icon className="h-5 w-5 text-secondary" />
+                <p className="mt-2 text-xs text-muted-foreground">{i.label}</p>
+                <p className="font-semibold">{i.value}</p>
+              </div>
             ))}
           </div>
           <div className="flex flex-wrap gap-3">
-            <a href={`https://wa.me/${HUB.whatsapp}`} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-success px-5 py-3 font-semibold text-primary-foreground"><MessageCircle className="h-4 w-4" />{t("Chat on WhatsApp", "WhatsApp-এ চ্যাট")}</a>
-            <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(HUB.address)}`} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-xl border border-border px-5 py-3 font-semibold"><MapPin className="h-4 w-4" />{t("Open in Maps", "ম্যাপে দেখুন")}</a>
+            <a
+              href={`https://wa.me/${HUB.whatsapp}`}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-xl bg-success px-5 py-3 font-semibold text-primary-foreground"
+            >
+              <MessageCircle className="h-4 w-4" />
+              {t("Chat on WhatsApp", "WhatsApp-এ চ্যাট")}
+            </a>
+            <a
+              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(HUB.address)}`}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-xl border border-border px-5 py-3 font-semibold"
+            >
+              <MapPin className="h-4 w-4" />
+              {t("Open in Maps", "ম্যাপে দেখুন")}
+            </a>
           </div>
           <OfficeMap />
         </div>
         <div>
           <h2 className="mb-4 text-2xl font-extrabold">{t("Send us a message", "বার্তা পাঠান")}</h2>
-          <LeadForm kinds={[t("Corporate inquiry", "কর্পোরেট অনুসন্ধান"), t("Feedback", "মতামত"), t("General", "সাধারণ")]} cta={t("Send message", "বার্তা পাঠান")} />
+          <LeadForm
+            kinds={[
+              t("Corporate inquiry", "কর্পোরেট অনুসন্ধান"),
+              t("Feedback", "মতামত"),
+              t("General", "সাধারণ"),
+            ]}
+            cta={t("Send message", "বার্তা পাঠান")}
+          />
         </div>
       </section>
     </>

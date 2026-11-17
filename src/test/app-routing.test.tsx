@@ -14,4 +14,17 @@ describe("App routing", () => {
 
     expect(matches.at(-1)?.routeId).not.toBe(rootRouteId);
   });
+
+  it("opens the full-page assistant for a new chat and for a saved chat", () => {
+    const router = createRouter({ routeTree, context: { queryClient: new QueryClient() } });
+
+    const fresh = router.matchRoutes("/chat").map((m) => m.routeId);
+    const saved = router.matchRoutes("/chat/abc-123");
+
+    expect(fresh).toEqual(expect.arrayContaining(["/chat", "/chat/"]));
+    expect(saved.map((m) => m.routeId)).toEqual(
+      expect.arrayContaining(["/chat", "/chat/$threadId"]),
+    );
+    expect(saved.at(-1)?.params).toMatchObject({ threadId: "abc-123" });
+  });
 });

@@ -11,10 +11,12 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BookRouteImport } from './routes/book'
+import { Route as ChatRouteImport } from './routes/chat'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as InvestorsRouteImport } from './routes/investors'
 import { Route as OrderRouteImport } from './routes/order'
 import { Route as SolutionsRouteImport } from './routes/solutions'
+import { Route as ChatIndexRouteImport } from './routes/chat.index'
 import { Route as ChatThreadIdRouteImport } from './routes/chat.$threadId'
 import { Route as ApiPublicConciergeRouteImport } from './routes/api/public/concierge'
 import { Route as ApiPublicDistrictHubRefreshRouteImport } from './routes/api/public/district-hub-refresh'
@@ -27,6 +29,11 @@ const IndexRoute = IndexRouteImport.update({
 const BookRoute = BookRouteImport.update({
   id: '/book',
   path: '/book',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChatRoute = ChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -49,10 +56,15 @@ const SolutionsRoute = SolutionsRouteImport.update({
   path: '/solutions',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ChatIndexRoute = ChatIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ChatRoute,
+} as any)
 const ChatThreadIdRoute = ChatThreadIdRouteImport.update({
-  id: '/chat/$threadId',
-  path: '/chat/$threadId',
-  getParentRoute: () => rootRouteImport,
+  id: '/$threadId',
+  path: '/$threadId',
+  getParentRoute: () => ChatRoute,
 } as any)
 const ApiPublicConciergeRoute = ApiPublicConciergeRouteImport.update({
   id: '/api/public/concierge',
@@ -69,11 +81,13 @@ const ApiPublicDistrictHubRefreshRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/book': typeof BookRoute
+  '/chat': typeof ChatRouteWithChildren
   '/contact': typeof ContactRoute
   '/investors': typeof InvestorsRoute
   '/order': typeof OrderRoute
   '/solutions': typeof SolutionsRoute
   '/chat/$threadId': typeof ChatThreadIdRoute
+  '/chat/': typeof ChatIndexRoute
   '/api/public/concierge': typeof ApiPublicConciergeRoute
   '/api/public/district-hub-refresh': typeof ApiPublicDistrictHubRefreshRoute
 }
@@ -85,6 +99,7 @@ export interface FileRoutesByTo {
   '/order': typeof OrderRoute
   '/solutions': typeof SolutionsRoute
   '/chat/$threadId': typeof ChatThreadIdRoute
+  '/chat': typeof ChatIndexRoute
   '/api/public/concierge': typeof ApiPublicConciergeRoute
   '/api/public/district-hub-refresh': typeof ApiPublicDistrictHubRefreshRoute
 }
@@ -92,11 +107,13 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/book': typeof BookRoute
+  '/chat': typeof ChatRouteWithChildren
   '/contact': typeof ContactRoute
   '/investors': typeof InvestorsRoute
   '/order': typeof OrderRoute
   '/solutions': typeof SolutionsRoute
   '/chat/$threadId': typeof ChatThreadIdRoute
+  '/chat/': typeof ChatIndexRoute
   '/api/public/concierge': typeof ApiPublicConciergeRoute
   '/api/public/district-hub-refresh': typeof ApiPublicDistrictHubRefreshRoute
 }
@@ -105,11 +122,13 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/book'
+    | '/chat'
     | '/contact'
     | '/investors'
     | '/order'
     | '/solutions'
     | '/chat/$threadId'
+    | '/chat/'
     | '/api/public/concierge'
     | '/api/public/district-hub-refresh'
   fileRoutesByTo: FileRoutesByTo
@@ -121,17 +140,20 @@ export interface FileRouteTypes {
     | '/order'
     | '/solutions'
     | '/chat/$threadId'
+    | '/chat'
     | '/api/public/concierge'
     | '/api/public/district-hub-refresh'
   id:
     | '__root__'
     | '/'
     | '/book'
+    | '/chat'
     | '/contact'
     | '/investors'
     | '/order'
     | '/solutions'
     | '/chat/$threadId'
+    | '/chat/'
     | '/api/public/concierge'
     | '/api/public/district-hub-refresh'
   fileRoutesById: FileRoutesById
@@ -139,11 +161,11 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BookRoute: typeof BookRoute
+  ChatRoute: typeof ChatRouteWithChildren
   ContactRoute: typeof ContactRoute
   InvestorsRoute: typeof InvestorsRoute
   OrderRoute: typeof OrderRoute
   SolutionsRoute: typeof SolutionsRoute
-  ChatThreadIdRoute: typeof ChatThreadIdRoute
   ApiPublicConciergeRoute: typeof ApiPublicConciergeRoute
   ApiPublicDistrictHubRefreshRoute: typeof ApiPublicDistrictHubRefreshRoute
 }
@@ -162,6 +184,13 @@ declare module '@tanstack/react-router' {
       path: '/book'
       fullPath: '/book'
       preLoaderRoute: typeof BookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/chat': {
+      id: '/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ChatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -192,12 +221,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SolutionsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/chat/': {
+      id: '/chat/'
+      path: '/'
+      fullPath: '/chat/'
+      preLoaderRoute: typeof ChatIndexRouteImport
+      parentRoute: typeof ChatRoute
+    }
     '/chat/$threadId': {
       id: '/chat/$threadId'
-      path: '/chat/$threadId'
+      path: '/$threadId'
       fullPath: '/chat/$threadId'
       preLoaderRoute: typeof ChatThreadIdRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ChatRoute
     }
     '/api/public/concierge': {
       id: '/api/public/concierge'
@@ -216,14 +252,26 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface ChatRouteChildren {
+  ChatThreadIdRoute: typeof ChatThreadIdRoute
+  ChatIndexRoute: typeof ChatIndexRoute
+}
+
+const ChatRouteChildren: ChatRouteChildren = {
+  ChatThreadIdRoute: ChatThreadIdRoute,
+  ChatIndexRoute: ChatIndexRoute,
+}
+
+const ChatRouteWithChildren = ChatRoute._addFileChildren(ChatRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BookRoute: BookRoute,
+  ChatRoute: ChatRouteWithChildren,
   ContactRoute: ContactRoute,
   InvestorsRoute: InvestorsRoute,
   OrderRoute: OrderRoute,
   SolutionsRoute: SolutionsRoute,
-  ChatThreadIdRoute: ChatThreadIdRoute,
   ApiPublicConciergeRoute: ApiPublicConciergeRoute,
   ApiPublicDistrictHubRefreshRoute: ApiPublicDistrictHubRefreshRoute,
 }
