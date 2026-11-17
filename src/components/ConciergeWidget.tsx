@@ -40,6 +40,8 @@ import {
   updateThread,
   type ConciergeThread,
 } from "@/lib/concierge-history";
+import { ConciergeTools, ReadAloudToggle, VoiceInputButton, speak } from "./ConciergeTools";
+import { useLocalStorage } from "@/lib/storage";
 import avatar from "@/assets/concierge.png";
 
 export function ConciergeWidget() {
@@ -243,6 +245,9 @@ function ChatWindow({
 }) {
   const { lang, t } = useLang();
   const [input, setInput] = useState("");
+  const [voiceReplies, setVoiceReplies] = useLocalStorage("aihub.concierge.voice", false);
+  const voiceRef = useRef(voiceReplies);
+  voiceRef.current = voiceReplies;
   const ref = useRef<HTMLTextAreaElement>(null);
   const transport = useMemo(() => new DefaultChatTransport({ api: "/api/public/concierge" }), []);
   const { messages, sendMessage, status, error, stop, regenerate, clearError } = useChat({
@@ -250,7 +255,13 @@ function ChatWindow({
     messages: thread.messages,
     transport,
     onFinish: ({ messages: completed, isError, isDisconnect }) => {
-      if (!isError && !isDisconnect) save(thread.id, completed);
+      if (!isError && !isDisconnect) {
+        save(thread.id, completed);
+        const last = completed[completed.length - 1];
+        if (voiceRef.current && last?.role === "assistant") {
+          speak(last.parts.map((p) => (p.type === "text" ? p.text : "")).join(" "), lang);
+        }
+      }
     },
   });
   const busy = status === "submitted" || status === "streaming";
@@ -398,12 +409,25 @@ function ChatWindow({
             maxLength={16000}
             aria-label={t("Message the AI Concierge", "এআই কনসিয়ার্জকে বার্তা লিখুন")}
             placeholder={t("Ask about the hub…", "হাব সম্পর্কে জিজ্ঞেস করুন…")}
-            className="max-h-32 min-h-16 text-base"
+            className="max-h-40 min-h-16 text-base"
           />
-          <PromptInputFooter className="justify-between">
-            <span className="text-xs text-muted-foreground">
-              {t("AI can make mistakes.", "এআই ভুল করতে পারে।")}
-            </span>
+          <PromptInputFooter className="justify-between gap-2">
+            <div className="flex min-w-0 items-center gap-1.5">
+              <ConciergeTools
+                onTemplate={(p) => {
+                  setInput(p);
+                  requestAnimationFrame(() => {
+                    const el = ref.current;
+                    if (!el) return;
+                    el.focus();
+                    const at = p.indexOf("___");
+                    if (at >= 0) el.setSelectionRange(at, at + 3);
+                  });
+                }}
+              />
+              <VoiceInputButton disabled={busy} onText={(v) => setInput((cur) => (cur ? `${cur} ${v}` : v))} />
+              <ReadAloudToggle on={voiceReplies} onChange={setVoiceReplies} />
+            </div>
             <PromptInputSubmit
               status={status}
               onStop={() => void stop()}
@@ -412,6 +436,9 @@ function ChatWindow({
             />
           </PromptInputFooter>
         </PromptInput>
+        <p className="mt-1.5 text-center text-[11px] text-muted-foreground">
+          {t("AI can make mistakes.", "এআই ভুল করতে পারে।")}
+        </p>
       </div>
     </>
   );
