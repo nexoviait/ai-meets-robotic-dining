@@ -42,6 +42,8 @@ import {
 } from "@/lib/concierge-history";
 import { ConciergeTools, ReadAloudToggle, VoiceInputButton, speak } from "./ConciergeTools";
 import { useLocalStorage } from "@/lib/storage";
+import { WorkflowPanel } from "./WorkflowPanel";
+import type { Workflow } from "@/lib/concierge-workflows";
 import avatar from "@/assets/concierge.png";
 
 export function ConciergeWidget() {
@@ -245,6 +247,7 @@ function ChatWindow({
 }) {
   const { lang, t } = useLang();
   const [input, setInput] = useState("");
+  const [flow, setFlow] = useState<Workflow | null>(null);
   const [voiceReplies, setVoiceReplies] = useLocalStorage("aihub.concierge.voice", false);
   const voiceRef = useRef(voiceReplies);
   voiceRef.current = voiceReplies;
@@ -400,6 +403,19 @@ function ChatWindow({
         <ConversationScrollButton />
       </Conversation>
       <div className="shrink-0 px-3 pb-3">
+        {flow && (
+          <div className="mb-2 max-h-[55vh] overflow-y-auto">
+            <WorkflowPanel
+              key={flow.id}
+              workflow={flow}
+              onCancel={() => setFlow(null)}
+              onSubmit={(prompt) => {
+                setFlow(null);
+                void send(prompt);
+              }}
+            />
+          </div>
+        )}
         <PromptInput onSubmit={({ text }) => send(text)}>
           <PromptInputTextarea
             ref={ref}
@@ -413,18 +429,7 @@ function ChatWindow({
           />
           <PromptInputFooter className="justify-between gap-2">
             <div className="flex min-w-0 items-center gap-1.5">
-              <ConciergeTools
-                onTemplate={(p) => {
-                  setInput(p);
-                  requestAnimationFrame(() => {
-                    const el = ref.current;
-                    if (!el) return;
-                    el.focus();
-                    const at = p.indexOf("___");
-                    if (at >= 0) el.setSelectionRange(at, at + 3);
-                  });
-                }}
-              />
+              <ConciergeTools onPick={setFlow} />
               <VoiceInputButton disabled={busy} onText={(v) => setInput((cur) => (cur ? `${cur} ${v}` : v))} />
               <ReadAloudToggle on={voiceReplies} onChange={setVoiceReplies} />
             </div>

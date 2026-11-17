@@ -10,52 +10,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useLang } from "@/lib/i18n";
+import { WORKFLOWS, type Workflow } from "@/lib/concierge-workflows";
 
-type T = (en: string, bn: string) => string;
+const ICONS = { business: Briefcase, image: ImageIcon, video: Film, audio: Music };
 
-/** Guided creative templates the concierge fills in with the visitor. */
-export const TOOL_TEMPLATES = (t: T) => [
-  {
-    id: "business",
-    icon: Briefcase,
-    label: t("Business idea builder", "ব্যবসায়িক আইডিয়া তৈরি"),
-    hint: t("Idea → plan → AI product", "আইডিয়া → পরিকল্পনা → এআই প্রোডাক্ট"),
-    prompt: t(
-      "Help me build a business idea with AI. My interest/skill is: ___. Give me 3 ideas for Bangladesh, then for the best one: target customers, AI product to build, automation, BDT startup cost, how AI HUB BD can help, and next 3 steps.",
-      "এআই দিয়ে একটি ব্যবসায়িক আইডিয়া তৈরি করতে সাহায্য করুন। আমার আগ্রহ/দক্ষতা: ___। বাংলাদেশের জন্য ৩টি আইডিয়া দিন, তারপর সেরাটির জন্য: লক্ষ্য গ্রাহক, কোন এআই প্রোডাক্ট বানাবো, অটোমেশন, টাকায় শুরুর খরচ, AI HUB BD কীভাবে সাহায্য করবে এবং পরবর্তী ৩টি ধাপ।",
-    ),
-  },
-  {
-    id: "image",
-    icon: ImageIcon,
-    label: t("Image & logo creator", "ছবি ও লোগো ক্রিয়েটর"),
-    hint: t("Get a ready image prompt", "প্রস্তুত ইমেজ প্রম্পট"),
-    prompt: t(
-      "I need an image for: ___ (logo / product photo / social post). Write 3 detailed AI image prompts with style, colours and layout, and tell me which AI HUB BD workstation tools I can use to create it.",
-      "আমার একটি ছবি দরকার: ___ (লোগো / প্রোডাক্ট ছবি / সোশ্যাল পোস্ট)। স্টাইল, রং ও লেআউটসহ ৩টি বিস্তারিত এআই ইমেজ প্রম্পট লিখুন এবং AI HUB BD-র কোন টুল দিয়ে বানাতে পারি বলুন।",
-    ),
-  },
-  {
-    id: "video",
-    icon: Film,
-    label: t("Video script maker", "ভিডিও স্ক্রিপ্ট মেকার"),
-    hint: t("Scenes, voiceover, captions", "দৃশ্য, ভয়েসওভার, ক্যাপশন"),
-    prompt: t(
-      "Create a 30-second promo video plan for: ___. Give scene-by-scene shots, voiceover lines, on-screen captions and music mood, plus how the AI HUB BD production studio can help produce it.",
-      "এর জন্য ৩০ সেকেন্ডের প্রোমো ভিডিও পরিকল্পনা করুন: ___। দৃশ্যভিত্তিক শট, ভয়েসওভার, স্ক্রিন ক্যাপশন ও মিউজিকের মুড দিন, এবং AI HUB BD প্রোডাকশন স্টুডিও কীভাবে সাহায্য করবে।",
-    ),
-  },
-  {
-    id: "audio",
-    icon: Music,
-    label: t("Audio & jingle writer", "অডিও ও জিঙ্গেল লেখক"),
-    hint: t("Podcast, ad or jingle", "পডকাস্ট, বিজ্ঞাপন বা জিঙ্গেল"),
-    prompt: t(
-      "Write audio content for: ___ (radio ad / jingle / podcast intro). Give the script, tone, voice style and timing.",
-      "এর জন্য অডিও কনটেন্ট লিখুন: ___ (রেডিও বিজ্ঞাপন / জিঙ্গেল / পডকাস্ট ইন্ট্রো)। স্ক্রিপ্ট, টোন, কণ্ঠের ধরন ও সময় দিন।",
-    ),
-  },
-];
 
 type Recognition = {
   lang: string;
@@ -73,8 +31,8 @@ function getRecognition(): (new () => Recognition) | undefined {
   return (w["SpeechRecognition"] ?? w["webkitSpeechRecognition"]) as (new () => Recognition) | undefined;
 }
 
-export function ConciergeTools({ onTemplate }: { onTemplate: (prompt: string) => void }) {
-  const { t } = useLang();
+export function ConciergeTools({ onPick }: { onPick: (w: Workflow) => void }) {
+  const { t, lang } = useLang();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -84,17 +42,20 @@ export function ConciergeTools({ onTemplate }: { onTemplate: (prompt: string) =>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" side="top" className="z-[60] w-72">
-        <DropdownMenuLabel>{t("Create with AI", "এআই দিয়ে তৈরি করুন")}</DropdownMenuLabel>
+        <DropdownMenuLabel>{t("Guided workflows", "ধাপে ধাপে ওয়ার্কফ্লো")}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        {TOOL_TEMPLATES(t).map((tool) => (
-          <DropdownMenuItem key={tool.id} onSelect={() => onTemplate(tool.prompt)} className="items-start gap-3 py-2">
-            <tool.icon className="mt-0.5 text-secondary" />
+        {WORKFLOWS.map((w) => {
+          const Icon = ICONS[w.id];
+          return (
+          <DropdownMenuItem key={w.id} onSelect={() => onPick(w)} className="items-start gap-3 py-2">
+            <Icon className="mt-0.5 text-secondary" />
             <span>
-              <span className="block font-semibold">{tool.label}</span>
-              <span className="block text-xs text-muted-foreground">{tool.hint}</span>
+              <span className="block font-semibold">{w.title[lang]}</span>
+              <span className="block text-xs text-muted-foreground">{w.hint[lang]}</span>
             </span>
           </DropdownMenuItem>
-        ))}
+          );
+        })}
       </DropdownMenuContent>
     </DropdownMenu>
   );
