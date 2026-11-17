@@ -4,6 +4,7 @@
 - [x] Replace outdated investor PDF downloads and verify figures, calculations and page presentation.
 
 # National district map
+- [x] Show consistent confirmed/proposed location status on map pins, district rows and selected details.
 - [x] Geocode and cache 64 district reference points without adding per-visitor API calls.
 - [x] Add an interactive rollout-phase map and accessible district explorer to Investors.
 - [x] Verify all 64 locations, phase filters, selection, mobile layout and map-independent flows.

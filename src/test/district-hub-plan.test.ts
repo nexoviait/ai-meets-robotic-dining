@@ -1,8 +1,19 @@
 import { describe, expect, it } from "vitest";
-import { DISTRICT_HUB_PLAN } from "@/lib/district-hub-plan";
+import { DISTRICT_HUB_PLAN, districtHubStatus } from "@/lib/district-hub-plan";
 import { INITIAL_DISTRICT_COORDINATES } from "@/lib/district-hub-coordinates.server";
 
 describe("national district rollout plan", () => {
+  it("marks only the Dhaka flagship as confirmed", () => {
+    expect(districtHubStatus("dhaka").confirmed).toBe(true);
+    expect(DISTRICT_HUB_PLAN.filter((hub) => districtHubStatus(hub.id).confirmed).map((hub) => hub.id)).toEqual(["dhaka"]);
+  });
+
+  it("keeps all 63 other district hubs proposed", () => {
+    const proposed = DISTRICT_HUB_PLAN.filter((hub) => hub.id !== "dhaka");
+    expect(proposed).toHaveLength(63);
+    for (const hub of proposed) expect(districtHubStatus(hub.id).confirmed).toBe(false);
+  });
+
   it("contains exactly 64 unique districts and coordinates", () => {
     expect(DISTRICT_HUB_PLAN).toHaveLength(64);
     expect(new Set(DISTRICT_HUB_PLAN.map((district) => district.id)).size).toBe(64);

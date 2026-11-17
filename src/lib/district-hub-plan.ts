@@ -1,5 +1,15 @@
 export type RolloutPhase = 1 | 2 | 3;
 
+// Confirmation describes the location, not approval of its proposed rollout phase.
+export function districtHubStatus(id: string) {
+  const confirmed = id === "dhaka";
+  return {
+    confirmed,
+    label: confirmed ? "Confirmed flagship" : "Proposed hub",
+    pinLabel: confirmed ? "C" : "P",
+  };
+}
+
 export interface DistrictHubPlan {
   id: string;
   name: string;

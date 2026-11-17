@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Map as MapIcon } from "lucide-react";
-import { PHASE_INFO, type DistrictHubLocation, type RolloutPhase } from "@/lib/district-hub-plan";
+import { districtHubStatus, PHASE_INFO, type DistrictHubLocation, type RolloutPhase } from "@/lib/district-hub-plan";
 
 const MARKER_COLORS: Record<RolloutPhase, string> = {
   1: "#F59E0B",
@@ -25,14 +25,14 @@ const DARK_MAP_STYLES: google.maps.MapTypeStyle[] = [
   { featureType: "landscape.natural", elementType: "geometry", stylers: [{ color: "#0D1324" }] },
 ];
 
-function markerIcon(phase: RolloutPhase, selected: boolean): google.maps.Symbol {
+function markerIcon(phase: RolloutPhase, selected: boolean, confirmed: boolean): google.maps.Symbol {
   return {
     path: google.maps.SymbolPath.CIRCLE,
     fillColor: MARKER_COLORS[phase],
-    fillOpacity: 1,
+    fillOpacity: confirmed ? 1 : 0.35,
     strokeColor: selected ? "#F5F7FF" : "#111629",
     strokeWeight: selected ? 3 : 1.5,
-    scale: selected ? 9 : 6.5,
+    scale: selected ? 13 : 11,
   };
 }
 
@@ -92,11 +92,13 @@ export function DistrictGoogleMap({
       infoRef.current = new google.maps.InfoWindow();
       const markers = new Map<string, google.maps.Marker>();
       for (const location of locations) {
+        const hubStatus = districtHubStatus(location.id);
         const marker = new google.maps.Marker({
           map,
           position: { lat: location.lat, lng: location.lng },
-          title: `${location.name} — ${PHASE_INFO[location.phase].timing}`,
-          icon: markerIcon(location.phase, location.id === selectedId),
+          title: `${location.name} AI Hub — ${hubStatus.label} — ${PHASE_INFO[location.phase].timing}`,
+          label: { text: hubStatus.pinLabel, color: getComputedStyle(container).color, fontWeight: "700", fontSize: "11px" },
+          icon: markerIcon(location.phase, location.id === selectedId, hubStatus.confirmed),
         });
         listeners.push(marker.addListener("click", () => selectRef.current(location.id)));
         markers.set(location.id, marker);
@@ -146,8 +148,9 @@ export function DistrictGoogleMap({
       marker.setMap(visible.has(id) ? mapRef.current : null),
     );
     if (visibleLocations.length === 0) return;
-    if (visibleLocations.length === 1) {
-      mapRef.current.setCenter({ lat: visibleLocations[0]!.lat, lng: visibleLocations[0]!.lng });
+    const onlyLocation = visibleLocations.length === 1 ? visibleLocations[0] : undefined;
+    if (onlyLocation) {
+      mapRef.current.setCenter({ lat: onlyLocation.lat, lng: onlyLocation.lng });
       mapRef.current.setZoom(9);
       return;
     }
@@ -162,7 +165,7 @@ export function DistrictGoogleMap({
     if (status !== "ready") return;
     markersRef.current.forEach((marker, id) => {
       const location = locations.find((item) => item.id === id);
-      if (location) marker.setIcon(markerIcon(location.phase, id === selectedId));
+      if (location) marker.setIcon(markerIcon(location.phase, id === selectedId, districtHubStatus(id).confirmed));
     });
     const selected = locations.find((location) => location.id === selectedId);
     const marker = markersRef.current.get(selectedId);
@@ -178,8 +181,8 @@ export function DistrictGoogleMap({
     const note = document.createElement("p");
     note.textContent =
       selected.id === "dhaka"
-        ? "Confirmed flagship address"
-        : "Proposed district reference point · venue to be confirmed";
+        ? "Confirmed flagship · confirmed address; rollout phase remains proposed"
+        : "Proposed hub · district reference point; venue to be confirmed";
     content.append(title, phase, note);
     infoRef.current.setContent(content);
     infoRef.current.open({ map: mapRef.current, anchor: marker });
@@ -190,8 +193,8 @@ export function DistrictGoogleMap({
     <div className="relative h-[430px] overflow-hidden rounded-2xl border border-border bg-muted md:h-[560px]">
       <div
         ref={containerRef}
-        className="absolute inset-0 h-full w-full"
-        aria-label="Interactive Google Map of 64 proposed AI Hub district locations"
+        className="absolute inset-0 h-full w-full text-foreground"
+        aria-label="Interactive Google Map of 64 AI Hubs: Dhaka confirmed flagship and 63 proposed district hubs"
       />
       {status !== "ready" && (
         <div className="absolute inset-0 grid place-items-center bg-card/70 p-6 text-center backdrop-blur-sm">
