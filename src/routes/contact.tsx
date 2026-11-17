@@ -4,7 +4,7 @@ import { HUB } from "@/lib/data";
 import { useLang } from "@/lib/i18n";
 import { PageHeader } from "@/components/SiteShell";
 import { LeadForm } from "@/components/LeadForm";
-import building from "@/assets/gawsia-twin-peak.jpg.asset.json";
+import building from "@/assets/gawsia-twin-peak.jpg";
 import { OfficeMap } from "@/components/OfficeMap";
 
 export const Route = createFileRoute("/contact")({
@@ -53,13 +53,13 @@ function ContactPage() {
               with a blurred, zoomed copy of the photo instead. */}
           <div className="relative aspect-video overflow-hidden rounded-3xl border border-border bg-card">
             <img
-              src={building.url}
+              src={building}
               alt=""
               aria-hidden
               className="absolute inset-0 h-full w-full scale-[2.2] object-cover opacity-50 blur-xl"
             />
             <img
-              src={building.url}
+              src={building}
               alt="Night-time exterior of Gawsia Twin Peak, showing its illuminated multi-storey facade and entrance at 30 N Circular Rd, Dhaka 1205"
               width={460}
               height={576}

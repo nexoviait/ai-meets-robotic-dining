@@ -59,7 +59,7 @@ export const MENU: MenuItem[] = [
     bn: "দুধ চা",
     category: "tea",
     price: 80,
-    emoji: "🫖",
+    emoji: "🥛",
     desc: "Strong tea with steamed milk — the Dhaka favourite.",
     prepSeconds: 50,
   },
